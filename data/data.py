@@ -8,7 +8,7 @@ mydb= mysql.connector.connect(
   database="website"
 )
 
-#cursor=mydb.cursor()
+
 with open("taipei-attractions.json", mode="r",encoding="utf-8") as file:
  data=json.load(file)
  all=data["result"]["results"]
