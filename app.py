@@ -46,7 +46,6 @@ def apiattract():
 							for i in range(a,a+12):
 								data=myresult[i]
 								newimg=""
-								#print(data[0])
 								img=data[9].split('http')
 								for j in img:
 									newimg += "http"+j+","	
