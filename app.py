@@ -129,7 +129,7 @@ def apiattract():
 			elif len(myresult) > 12:
 				print(len(myresult))
 				num=len(myresult)%12  #餘數
-				newnum= int(len(myresult)/12) #整
+				newnum= int(len(myresult)/12) #整數
 				
 				
 				if num != 0:
