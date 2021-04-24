@@ -38,12 +38,16 @@ def apiattract():
 			count=len(myresult)
 			if  count > 12 and count != 0:
 				num=count%12  #餘數
-				newnum=count/12  #整數
+				newnum=int(count/12)  #整數
 				if num != 0:
 						if int(page) < newnum +1 :
 							travellist=[]
 							a=int(page)*12
-							for i in range(a,a+12):
+							if int(page) == newnum:
+								b=count
+							else:
+								b=a+12
+							for i in range(a,b):
 								data=myresult[i]
 								newimg=""
 								img=data[9].split('http')
@@ -62,7 +66,10 @@ def apiattract():
 								newitem['longtitude'] = data[8]
 								newitem['images'] = [newimgQ]
 								travellist.append(newitem)
-							All={'nextpage':int(page)+1,'data':travellist} 
+							if b==count:
+								All={'nextpage':None,'data':travellist} 
+							else:
+								All={'nextpage':int(page)+1,'data':travellist}
 							return jsonify(All)
 						else:
 								msg = {"error": True, "message": "查無資料"}
@@ -88,7 +95,6 @@ def apiattract():
 					newitem['longtitude'] = row[8]
 					newitem['images'] = [newimgQ]
 					travellist.append(newitem)
-				
 				All={'nextpage':None,'data':travellist}  
 				return jsonify(All)
 			elif len(myresult) == 0:
@@ -100,7 +106,11 @@ def apiattract():
 			cursor.execute(sql)
 			myresult = cursor.fetchall()  
 			if len(myresult) <= 12 and len(myresult) != 0:
-				travellist=[]
+				if int(page) > 0 :
+					msg = {"error": True, "message": "查無資料"}
+					return jsonify(msg)
+				else:
+					travellist=[]
 				for row in myresult:
 					newimg=""
 					img=row[9].split('http')
@@ -119,26 +129,26 @@ def apiattract():
 					newitem['longtitude'] = row[8]
 					newitem['images'] = [newimgQ]
 					travellist.append(newitem)
-				  
 				All={'nextpage':None,'data':travellist}  
 				return jsonify(All)
 			elif len(myresult) == 0:
 				msg = {"error": True, "message": "查無資料"}
 				return jsonify(msg)
 			elif len(myresult) > 12:
-				print(len(myresult))
 				num=len(myresult)%12  #餘數
 				newnum= int(len(myresult)/12) #整數
-				
-				
+				rangeone=0
+				rangetwo=0
 				if num != 0:
 						if int(page) < newnum +1 :
 							travellist=[]
-							print(newnum)
-							a=int(page)*12
+							rangeone=int(page)*12
 							if int(page) == newnum:
-								for i in range(a,len(myresult)):
-									print(myresult[i])
+								rangetwo=len(myresult)
+							else:
+								rangetwo=rangeone+12
+						for i in range(rangeone,rangetwo):
+									print(rangeone,rangetwo)
 									data=myresult[i]
 									newimg=""
 									img=data[9].split('http')
@@ -157,35 +167,15 @@ def apiattract():
 									newitem['longtitude'] = data[8]
 									newitem['images'] = [newimgQ]
 									travellist.append(newitem)
-								All={'nextpage':int(page)+1,'data':travellist} 
-								return jsonify(All)
-
-							elif int(page) != newnum:
-								for i in range(a,a+12):
-									data=myresult[i]
-									newimg=""
-									img=data[9].split('http')
-									for j in img:
-										newimg += "http"+j+","	
-										newimgQ=newimg[:-1]		
-									newitem={}
-									newitem['id'] = int(data[0])
-									newitem['name'] = data[1]	
-									newitem['category'] = data[2]
-									newitem['description'] = data[3]
-									newitem['address'] = data[4] 
-									newitem['transport'] = data[5]
-									newitem['mrt'] = data[6]
-									newitem['latitude'] = data[7]
-									newitem['longtitude'] = data[8]
-									newitem['images'] = [newimgQ]
-									travellist.append(newitem)
-								All={'nextpage':int(page)+1,'data':travellist} 
-								return jsonify(All)
-							
+						if rangetwo==len(myresult):
+							All={'nextpage':None,'data':travellist} 
+							return jsonify(All)
+						elif rangetwo==rangeone+12:
+							All={'nextpage':int(page)+1,'data':travellist} 
+							return jsonify(All)
 						else:
-								msg = {"error": True, "message": "查無資料"}
-								return jsonify(msg)
+							msg = {"error": True, "message": "查無資料"}
+							return jsonify(msg)
 
 
 @app.route("/api/attraction/<attractionId>",methods=["GET"])
@@ -206,7 +196,7 @@ def apiattractid(attractionId):
 						img=row[9].split('http')
 						for j in img:
 							newimg += "http"+j+","	
-							newimgQ=	newimg[:-1]		
+							newimgQ=newimg[:-1]		
 						newitem={}
 						newitem['id'] = int(row[0])
 						newitem['name'] = row[1]	
