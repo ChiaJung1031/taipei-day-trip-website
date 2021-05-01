@@ -7,7 +7,8 @@ mydb= mysql.connector.connect(
   password="12345",
   database="website"
 )
-app=Flask(__name__)
+
+app=Flask(__name__, static_url_path="/", static_folder="image")
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 app.config['JSON_SORT_KEYS']=False
@@ -26,9 +27,9 @@ def booking():
 def thankyou():
 	return render_template("thankyou.html")
 
-@app.route("/api/attractions")
+@app.route("/api/attractions",methods=['GET', 'POST'])
 def apiattract():
-	page=request.args.get("page","")
+	page=request.args.get("page","0")
 	keyword=request.args.get("keyword","")
 	x=int(page)*12
 	limitnum= str(x)
@@ -51,7 +52,7 @@ def apiattract():
 								data=myresult[i]
 								newimg=""
 								img=data[9].split('http')
-								for j in img:
+								for j in img[1:len(img)]:
 									newimg += "http"+j+","	
 									newimgQ=newimg[:-1]		
 								newitem={}
@@ -104,7 +105,7 @@ def apiattract():
 								data=myresult[i]
 								newimg=""
 								img=data[9].split('http')
-								for j in img:
+								for j in img[1:len(img)]:
 									newimg += "http"+j+","	
 									newimgQ=newimg[:-1]		
 								newitem={}
@@ -156,7 +157,7 @@ def apiattractid(attractionId):
 					for row in myresult:
 						newimg=""
 						img=row[9].split('http')
-						for j in img:
+						for j in img[1:len(img)]:
 							newimg += "http"+j+","	
 							newimgQ=newimg[:-1]		
 						newitem={}
