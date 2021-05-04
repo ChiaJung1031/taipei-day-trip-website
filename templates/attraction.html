@@ -1,0 +1,261 @@
+<style>
+    html, body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        padding: 0px;
+    }
+    
+    nav{
+		height: 54px;
+		left: 0px;
+		top: 0px;
+		width: auto;
+		border-bottom: groove;
+		border-color: #eff3f547;
+    }
+
+    nav > .new>.logo{
+        flex:auto;
+        font-size: 30px;
+        color: #448899;
+        font-weight: bold;
+        font-style: normal;
+        font-family: Noto Sans;
+        margin-top: 10px;
+        position: relative;
+        margin-left: 35px;
+    }
+    
+    nav > .new>.menu{
+        flex:none;
+        font-size: 16px;
+        color: #666666;
+        margin-top: 20px;
+        margin-right: 25px;
+    }
+    
+    .new{
+        display:flex;
+        flex-wrap:wrap; 
+        justify-content:center; 
+        width: 1200px;
+         margin: 0px auto;
+    }
+ 
+    .menutype{
+            display: flex;
+            ont-size: 16px;
+            color: #666666;
+            margin-top: 20px;
+        }
+	
+    .footer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        left: 0px;
+        background: #757575;
+        margin-top: 30px;
+        padding: 50px;
+    }
+
+	.content{
+	    display: flex;
+		width: 1200px;
+		justify-content:center; 
+		margin: 35px auto;
+	}
+	.info{
+		line-height: 44px;
+	}
+	.booking{
+	    background-color: #E8E8E8;
+		 width: 180%;
+		 border-radius: 5px;
+		
+	}
+	.placeIntro{
+		width: 1200px;
+		justify-content:center; 
+		margin: 35px auto;
+	}
+    
+    @media screen and  (min-width:1001px) and (max-width:1200px){
+     
+
+        .new{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: auto;
+            margin: 0px auto;
+        }
+
+        
+     }
+
+     @media screen and  (min-width:851px) and (max-width:1000px){
+    
+        .new {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: auto;
+            margin: 0px auto;
+        }
+       
+
+     }
+
+     @media screen and  (min-width:601px) and (max-width:850px){
+        .new {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: auto;
+            margin: 0px auto;
+        }
+     
+     }
+   
+    
+    @media screen and (max-width:600px){
+     
+        .new{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 370px;
+            margin: 0px auto auto -6px;
+
+        }
+       
+       
+        .menutype{
+                display: flex;
+                font-size: 16px;
+                color: #666666;
+                margin-top: 20px;
+                margin-right: -9px;
+        }
+        nav > .new>.logo {
+            flex: auto;
+            font-size: 30px;
+            color: #448899;
+            font-weight: bold;
+            font-style: normal;
+            font-family: Noto Sans;
+            margin-top: 10px;
+            position: relative;
+        }
+       
+    }
+    
+    </style>
+    
+    <!DOCTYPE html>
+    <html>
+        <head>
+        <meta charest="utf-8" name="viewport" content="width=device-width, initial-scale=1, user-scalable=1.0"/>
+        <title>台北一日遊</title>
+        
+        <script type="text/javascript">
+    window.onload = function (){
+		if(document.getElementById('date_morning').checked == true)
+		{
+			radio_value = document.getElementById('radio_value');
+			let cat = document.createTextNode("新台幣2000元"); 
+            radio_value.appendChild(cat); 
+			
+		}
+		else if(document.getElementById('date_night').checked == true)
+		{
+			radio_value = document.getElementById('radio_value');
+			let cat = document.createTextNode("新台幣2000元"); 
+            radio_value.appendChild(cat); 
+		}
+	}
+		
+		function radioClick(radioValue)
+		{
+			if (radioValue.value == "morning")
+			{
+				radio_value = document.getElementById('radio_value');
+				radio_value.innerHTML = "";
+				let cat = document.createTextNode("新台幣2000元"); 
+				radio_value.appendChild(cat); 
+			}
+		    else if (radioValue.value == "night")
+			{
+				radio_value = document.getElementById('radio_value');
+				radio_value.innerHTML = "";
+				let cat = document.createTextNode("新台幣2500元"); 
+				radio_value.appendChild(cat);  
+			}
+		
+		}
+        
+        </script>
+        </head>
+
+        <body>
+            <nav>
+                <div class="new">
+                    <div class="logo">台北一日遊</div>
+                    <div class="menutype">
+                        <div class="menu">預定行程</div> &nbsp;&nbsp;
+                        <div class="menu">登入/註冊</div> &nbsp;
+                    </div>
+                </div>
+            </nav>
+            
+			
+			<div class="content">
+				<div>
+					<img  style="width:200px;" src="D:\python\project\image\apun.jpg">
+				</div>
+				
+				<div class="info">
+					<span style="display: block;">阿胖~~~~~~~~~~~~~~~~~~</span>
+					<span style="display: block;">超級可愛~~~~~~~~~~~~~~~~~~</span>
+					<div class="booking">
+						13213213213 <br>
+						ffffffffff <br>
+						選擇日期：<input id="datetime" type="date"><br>
+						選擇時間： 
+						<input type="radio" id="date_morning" name="time" onclick="radioClick(this);"  value="morning" checked>
+						<label for="morning">上半天</label>
+						<input type="radio" id="date_night" name="time" onclick="radioClick(this);" value="night">
+						<label for="night">下半天</label><br>
+						<div style="display: flex;">
+							<p>導覽費用：</p><p id="radio_value"><p><br>
+						</div>
+				
+						<button type="button">開始預訂行程</button>
+					</div>
+				</div>
+				
+				
+			
+			</div>
+            
+			<hr size="1px" align="center" width="1200px">
+			
+			<div class="placeIntro">
+				<div id="introduce"></div><br>
+				景點地址：<br>
+				<div id="locate"></div>
+				交通方式：<br>
+				<div id="transport"></div>
+			</div>
+     
+            
+
+
+
+
+            <div class="footer">COPYRIGHT © 2021 台北一日遊</div>
+        
+        </body>
+    </html>
