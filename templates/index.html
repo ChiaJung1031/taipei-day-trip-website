@@ -59,8 +59,10 @@
         font-size: 16px;
     }
     
-    .view>.profiles>.profile>img{
-        height:66%
+    .view>.profiles>.profile>a> img{
+        height: 200px;
+        width: 100%;
+
     }
     
     .view{
@@ -117,6 +119,7 @@
         font-size: 16px;
         margin-top: 25px;
         color: #757575;
+        margin-bottom: 10px
     }
     
     .classCate{
@@ -125,6 +128,7 @@
         font-size: 16px;
         margin-top: 25px;
         color: #757575;
+        margin-bottom: 10px
     }
 
     .footer{
@@ -365,7 +369,7 @@
             width: 322px;
             height: 280px;
         }
-        .view>.profiles>.profile>img {
+        .view>.profiles>.profile> img {
             height: 202px;      
         }
     
@@ -515,6 +519,7 @@
                                     let newpic;
                                     for (let i=0;i<count;i++)
                                     {
+                                        let ID =  newdata[i]["id"]; 
                                         let name = newdata[i]["name"]; 
                                         let mrt = newdata[i]["mrt"];
                                         if(mrt == null)
@@ -538,8 +543,14 @@
                                         let locatename = document.createTextNode(name); //加上文字-地點
                                         let locatemrt = document.createTextNode(mrt); //加上文字-捷運
                                         let cat = document.createTextNode(category); //加上文字-類別
+                                        let pic_a = document.createElement("a"); //加上圖片超聯結
+                                        let a_href = "/attraction/"+ ID  //超連結網址
+                                        pic_a.setAttribute("href",a_href);
+                                        everydiv.appendChild(pic_a);
                                         image.setAttribute("src",newpic);//插入圖片
-                                        everydiv.appendChild(image); //每個div下的圖片
+                                        pic_a.appendChild(image);
+                                    
+                                     //  everydiv.appendChild(image); //每個div下的圖片
                                         everydiv.appendChild(br); //換行
                                     
                                         everydiv.appendChild(div_txt);//增加文字的區塊

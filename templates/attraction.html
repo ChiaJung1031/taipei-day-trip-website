@@ -45,7 +45,7 @@
  
     .menutype{
             display: flex;
-            ont-size: 16px;
+            font-size: 16px;
             color: #666666;
             margin-top: 20px;
         }
@@ -56,7 +56,7 @@
         align-items: center;
         left: 0px;
         background: #757575;
-        margin-top: 30px;
+        margin-top: 70px;
         padding: 50px;
     }
 
@@ -67,20 +67,127 @@
 		margin: 35px auto;
 	}
 	.info{
-		line-height: 44px;
+        line-height: 44px;
+        margin-left: -100px;
 	}
 	.booking{
-	    background-color: #E8E8E8;
-		 width: 180%;
-		 border-radius: 5px;
-		
+        background-color: #E8E8E8;
+        width: 120%;
+        border-radius: 5px;
+        padding: 7%;
 	}
 	.placeIntro{
 		width: 1200px;
 		justify-content:center; 
 		margin: 35px auto;
 	}
-    
+	
+	.info > .booking> button{
+		background: #448899;
+		border-radius: 5px;
+		color: #FFFFFF;
+		border: hidden;
+		padding: 7px 20px;
+	}
+    .info > .booking > .time>.rbt_time>.radiobtn {
+	    width: 20px;
+		height: 20px;
+		display: inline;
+		position: relative;
+		top: 4px;
+	}
+	
+	
+	.classTitle{
+		font-family: Noto Sans TC;
+		font-style: normal;
+		font-weight: bold;
+		font-size: 24px;
+		line-height: 24px;
+		align-items: center;
+		color: #666666;
+	}
+
+	.classSubtitle{
+		font-family: Noto Sans TC;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+		display: flex;
+		align-items: center;
+		color: #666666;
+	}
+	
+	.bookTitle{
+		font-family: Noto Sans TC;
+		font-style: normal;
+		font-weight: bold;
+		font-size: 16px;
+		line-height: 13px;
+		display: flex;
+		align-items: center;
+		color: #666666;
+	}
+	
+	.bookSub{
+		font-family: Noto Sans TC;
+		font-style: normal;
+		font-weight: bold;
+		font-size: 16px;
+		line-height: 13px;
+		display: flex;
+		align-items: center;
+		color: #666666;
+	}
+	.subContent{
+		font-family: Noto Sans TC;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 20px;
+		align-items: center;
+		color: #666666;
+	}
+
+    .clsimg{
+        width: 125%;
+       margin-left: -55%;
+       height: 400px;
+    }
+
+    #divpic{
+        margin-left: 188px;
+        width: 40%;
+    }
+
+    .hr{width: 1200px;}
+
+    .demoHidden{
+			display: none;
+		}
+	.radioInput{
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            border-radius: 100%;
+            margin-right: 10px;
+            vertical-align: middle;
+            background-color: #FFFFFF;
+            margin-top: -5px;
+		}
+	.demoHidden:checked + .radioInput:after{
+            content: "";
+            display: inline-block;
+            width: 19px;
+            height: 20px;
+            background: #448899;
+            border-radius: 100%;
+            margin-top: 3px;
+            margin-left: 3px;
+		}
+	
+
+	
     @media screen and  (min-width:1001px) and (max-width:1200px){
      
 
@@ -91,7 +198,12 @@
             width: auto;
             margin: 0px auto;
         }
-
+        .content{
+            display: flex;
+            width: 1200px;
+            justify-content:center; 
+            margin: 35px auto;
+	    }
         
      }
 
@@ -149,10 +261,42 @@
             margin-top: 10px;
             position: relative;
         }
-       
+
+        .placeIntro {
+            width: 90%;
+            justify-content: center;
+            margin: 35px auto;
+        }
+
+        .hr{width: 90%;}
+
+        .content {
+            width: 90%;
+            justify-content: center;
+            margin: 35px auto;
+            flex-direction: column;
+        }
+
+        .booking{
+            background-color: #E8E8E8;
+            border-radius: 5px;
+            padding: 7%;
+            width: 87%;
+	    }
+        
+        .clsimg {
+            width: 245%;
+            margin-left: -134%;
+            height: 350px;
+            margin-bottom: 24px;
+        }
+        .info {
+            line-height: 44px;
+            margin-left: 0px; 
+        }
     }
     
-    </style>
+</style>
     
     <!DOCTYPE html>
     <html>
@@ -161,22 +305,62 @@
         <title>台北一日遊</title>
         
         <script type="text/javascript">
-    window.onload = function (){
-		if(document.getElementById('date_morning').checked == true)
-		{
-			radio_value = document.getElementById('radio_value');
-			let cat = document.createTextNode("新台幣2000元"); 
-            radio_value.appendChild(cat); 
-			
-		}
-		else if(document.getElementById('date_night').checked == true)
-		{
-			radio_value = document.getElementById('radio_value');
-			let cat = document.createTextNode("新台幣2000元"); 
-            radio_value.appendChild(cat); 
-		}
-	}
+
+         window.onload = function ()
+         {
+          //  if(document.getElementById('date_morning').checked == true)
+          //  {
+          //      radio_value = document.getElementById('radio_value');
+            //    let cat = document.createTextNode("新台幣2000元"); 
+           //     radio_value.appendChild(cat); 
+                
+          //  }
+
+
+            let req = new XMLHttpRequest();
+            req.open("GET","/api/"+location.pathname)
+            req.setRequestHeader('Content-type', 'application/json');
+            req.onload = function () 
+            {
+                 let back = JSON.parse(this.response);
+                 let name = back["data"][0]["name"];
+                 let category = back["data"][0]["category"];
+                 let MRT = back["data"][0]["mrt"]; 
+                 let description = back["data"][0]["description"];
+                 let add = back["data"][0]["address"];
+                 let trans = back["data"][0]["transport"];  
+                 let pic =  back["data"][0]["images"][0];
+                 if(MRT== null)
+                 {
+                    let catMRT =  category + " " + "at" +  " " + "" ;
+                    let subtitle = document.getElementById("subtitle") ;
+                    subtitle.innerHTML=catMRT;
+                 }
+                 else
+                 {
+                    let catMRT =  category + " " + "at" +  " " + MRT ;
+                    let subtitle = document.getElementById("subtitle") ;
+                    subtitle.innerHTML=catMRT;
+                 }
+                 let title = document.getElementById("title") ;
+                 title.innerHTML=name;
+                 let introduce = document.getElementById("introduce") ;
+                 introduce.innerHTML=description;
+                 let address = document.getElementById("address") ;
+                 address.innerHTML=add;
+                 let transport = document.getElementById("transport") ;
+                 transport.innerHTML=trans;
+                 let img = document.getElementById("img") ;
+                 img.setAttribute("src",pic.split(',')[0]);//插入圖片
+               
+           
+            }
+             req.send();
+
+
+	    }
 		
+        //click radio btn
 		function radioClick(radioValue)
 		{
 			if (radioValue.value == "morning")
@@ -195,14 +379,26 @@
 			}
 		
 		}
+		
+		function returnIndex()
+        {
+		   self.location="/";
+		}
         
         </script>
+
+
+
+
+
+
+
         </head>
 
         <body>
             <nav>
                 <div class="new">
-                    <div class="logo">台北一日遊</div>
+                    <div class="logo" onclick="returnIndex()">台北一日遊</div>
                     <div class="menutype">
                         <div class="menu">預定行程</div> &nbsp;&nbsp;
                         <div class="menu">登入/註冊</div> &nbsp;
@@ -212,24 +408,35 @@
             
 			
 			<div class="content">
-				<div>
-					<img  style="width:200px;" src="D:\python\project\image\apun.jpg">
+				<div id="divpic">
+					<img class="clsimg" id="img">
 				</div>
 				
 				<div class="info">
-					<span style="display: block;">阿胖~~~~~~~~~~~~~~~~~~</span>
-					<span style="display: block;">超級可愛~~~~~~~~~~~~~~~~~~</span>
+					<span class="classTitle" id="title" style="display: block;"></span>
+					<span class="classSubtitle" id="subtitle" style="display: block;"></span>
 					<div class="booking">
-						13213213213 <br>
-						ffffffffff <br>
-						選擇日期：<input id="datetime" type="date"><br>
-						選擇時間： 
-						<input type="radio" id="date_morning" name="time" onclick="radioClick(this);"  value="morning" checked>
-						<label for="morning">上半天</label>
-						<input type="radio" id="date_night" name="time" onclick="radioClick(this);" value="night">
-						<label for="night">下半天</label><br>
+						<p class="bookTitle">訂購導覽行程</p>
+						<p class="subContent">以此景點為中心的一日行程，帶您探索城市角落故事</p>
+						
+						<div style="display:flex"><p class="bookSub">選擇日期：</p><input id="datetime" type="date" style="height: 31px;margin-top:7px;border: none;"><br></div>
+						
+						<div  class="time" style="display:flex">
+							<p class="bookSub">選擇時間： </p>
+							<div class="rbt_time" style="margin-top: 4px;">
+                                <label>
+                                    <input type="radio" name="demo-radio" class="demoHidden" value="morning" checked>
+                                    <span class="radioInput"></span>上半天 
+                                </label>
+                                <label>
+                                    <input type="radio" name="demo-radio" class="demoHidden" value="night">
+                                    <span class="radioInput"></span>下半天
+                                </label>
+                            
+							</div>
+						</div>
 						<div style="display: flex;">
-							<p>導覽費用：</p><p id="radio_value"><p><br>
+							<p class="bookSub">導覽費用：</p><p class="subContent" id="radio_value" style="margin-top: 32px;"><p><br>
 						</div>
 				
 						<button type="button">開始預訂行程</button>
@@ -240,14 +447,14 @@
 			
 			</div>
             
-			<hr size="1px" align="center" width="1200px">
+			<hr id="hr" size="1px" text-align="center">
 			
 			<div class="placeIntro">
-				<div id="introduce"></div><br>
-				景點地址：<br>
-				<div id="locate"></div>
-				交通方式：<br>
-				<div id="transport"></div>
+				<div class="classSubtitle" id="introduce"></div><br>
+				<p class="bookSub">景點地址：</p>
+				<div class="classSubtitle"id="address"></div><br>
+				<p class="bookSub">交通方式：</p>
+				<div class="classSubtitle" id="transport"></div>
 			</div>
      
             
