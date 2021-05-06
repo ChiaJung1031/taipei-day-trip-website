@@ -66,10 +66,10 @@
 		justify-content:center; 
 		margin: 35px auto;
 	}
-	.info{
+    .info {
         line-height: 44px;
-        margin-left: -100px;
-	}
+        margin-left: 30px;
+    }
 	.booking{
         background-color: #E8E8E8;
         width: 120%;
@@ -77,7 +77,7 @@
         padding: 7%;
 	}
 	.placeIntro{
-		width: 1200px;
+        width: 1170px;
 		justify-content:center; 
 		margin: 35px auto;
 	}
@@ -117,18 +117,7 @@
 		align-items: center;
 		color: #666666;
 	}
-	
-	.bookTitle{
-		font-family: Noto Sans TC;
-		font-style: normal;
-		font-weight: bold;
-		font-size: 16px;
-		line-height: 13px;
-		display: flex;
-		align-items: center;
-		color: #666666;
-	}
-	
+
 	.bookSub{
 		font-family: Noto Sans TC;
 		font-style: normal;
@@ -155,12 +144,9 @@
        height: 400px;
     }
 
-    #divpic{
-        margin-left: 188px;
-        width: 40%;
-    }
+ 
 
-    .hr{width: 1200px;}
+    #hr{width: 1200px;}
 
     .demoHidden{
 			display: none;
@@ -185,12 +171,63 @@
             margin-top: 3px;
             margin-left: 3px;
 		}
-	
+
+
+        #container {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            overflow: hidden;
+            margin-left: -7%;
+        }
+
+    
+        
+        #list {
+            position: absolute;
+            z-index: 1;
+            width: 10000px;
+            height: 400px;
+        }
+        #list img {
+            float: left;
+            width: 600px;
+            height: 400px;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 180px;
+            z-index: 2;
+            display: none;
+            width: 40px;
+            height: 40px;
+            font-size: 36px;
+            font-weight: bold;
+            line-height: 39px;
+            text-align: center;
+            color: #fff;
+            background-color: RGBA(0, 0, 0, .3);
+            cursor: pointer;
+            display: block;
+        }
+
+        .arrow:hover {
+            background-color: RGBA(0, 0, 0, .7);
+        }
+
+ 
+        #prev {
+            left: 20px;
+        }
+
+        #next {
+            right: 20px;
+        }
 
 	
     @media screen and  (min-width:1001px) and (max-width:1200px){
      
-
         .new{
             display: flex;
             flex-wrap: wrap;
@@ -200,11 +237,32 @@
         }
         .content{
             display: flex;
-            width: 1200px;
+            width: 85%;
             justify-content:center; 
             margin: 35px auto;
 	    }
-        
+        .placeIntro {
+            width: 950px;
+            justify-content: center;
+            margin: 35px auto;
+        }
+        #container {
+            position: relative;
+            width: 500px;
+            height: 400px;
+            overflow: hidden;
+            margin-left: -3%;
+        }
+        #hr {
+            width: 90%;
+        }
+        .booking {
+        background-color: #E8E8E8;
+        width: 95%;
+        border-radius: 5px;
+        padding: 7%;
+        }
+            
      }
 
      @media screen and  (min-width:851px) and (max-width:1000px){
@@ -216,7 +274,33 @@
             width: auto;
             margin: 0px auto;
         }
-       
+        .placeIntro {
+            width: 800px;
+            justify-content: center;
+            margin: 35px auto;
+        }
+        #container {
+            position: relative;
+            width: 375;
+            height: 400px;
+            overflow: hidden;
+            margin-left: -2%;
+        }
+        .booking {
+            background-color: #E8E8E8;
+            width: 94%;
+            border-radius: 5px;
+            padding: 7%;
+        }
+        #hr {
+            width: 90%;
+        }
+        .content {
+            display: flex;
+            width: 800px;
+            justify-content: center;
+            margin: 35px auto;
+        }
 
      }
 
@@ -227,6 +311,46 @@
             justify-content: center;
             width: auto;
             margin: 0px auto;
+        }
+        .placeIntro {
+            width: 90%;
+            justify-content: center;
+            margin: 35px auto;
+        }
+
+        #hr{width: 90%;}
+
+        .content {
+            width: 90%;
+            justify-content: center;
+            margin: 35px auto;
+            flex-direction: column;
+        }
+
+        .booking{
+            background-color: #E8E8E8;
+            border-radius: 5px;
+            padding: 7%;
+            width: 87%;
+	    }
+        
+        .clsimg {
+            width: 245%;
+            margin-left: -134%;
+            height: 350px;
+            margin-bottom: 24px;
+        }
+        .info {
+            line-height: 44px;
+            margin-left: 0px; 
+        }
+        #container {
+            position: relative;
+            width: 112%;
+            height: 400px;
+            overflow: hidden;
+            margin-left: -6%;
+            margin-bottom: 15px;
         }
      
      }
@@ -268,7 +392,7 @@
             margin: 35px auto;
         }
 
-        .hr{width: 90%;}
+        #hr{width: 90%;}
 
         .content {
             width: 90%;
@@ -294,6 +418,14 @@
             line-height: 44px;
             margin-left: 0px; 
         }
+        #container {
+            position: relative;
+            width: 112%;
+            height: 400px;
+            overflow: hidden;
+            margin-left: -6%;
+            margin-bottom: 15px;
+        }
     }
     
 </style>
@@ -308,13 +440,15 @@
 
          window.onload = function ()
          {
-          //  if(document.getElementById('date_morning').checked == true)
-          //  {
-          //      radio_value = document.getElementById('radio_value');
-            //    let cat = document.createTextNode("新台幣2000元"); 
-           //     radio_value.appendChild(cat); 
+            var count;
+
+            if(document.getElementById('date_m').checked == true)
+            {
+                radio_value = document.getElementById('radio_value');
+                let cat = document.createTextNode("新台幣2000元"); 
+                radio_value.appendChild(cat); 
                 
-          //  }
+            }
 
 
             let req = new XMLHttpRequest();
@@ -329,7 +463,6 @@
                  let description = back["data"][0]["description"];
                  let add = back["data"][0]["address"];
                  let trans = back["data"][0]["transport"];  
-                 let pic =  back["data"][0]["images"][0];
                  if(MRT== null)
                  {
                     let catMRT =  category + " " + "at" +  " " + "" ;
@@ -350,15 +483,60 @@
                  address.innerHTML=add;
                  let transport = document.getElementById("transport") ;
                  transport.innerHTML=trans;
-                 let img = document.getElementById("img") ;
-                 img.setAttribute("src",pic.split(',')[0]);//插入圖片
-               
-           
+
+                 let pic =  back["data"][0]["images"][0];
+                 count =pic.split(',').length; //圖片數量
+                 let picList = document.getElementById("list"); //圖片div
+                 let PicLast = document.createElement("img");//產生最後一張圖片
+                 PicLast.setAttribute("src",pic.split(',')[(count-1)]);//插入圖片
+                 picList.appendChild(PicLast);
+                 for(i=0;i<count;i++)
+                 {
+                    let allPic = document.createElement("img");//產生所有圖片
+                    allPic.setAttribute("src",pic.split(',')[i]);//插入圖片
+                    picList.appendChild(allPic);
+                 }
+                 let PicFirst = document.createElement("img");//產生第一張圖片
+                 PicFirst.setAttribute("src",pic.split(',')[0]);//插入圖片
+                 picList.appendChild(PicFirst);
             }
              req.send();
 
 
-	    }
+
+             
+        //輪播
+        var container = document.getElementById('container');
+        var list = document.getElementById('list');
+        var prev = document.getElementById('prev');
+        var next = document.getElementById('next');
+        var timer;
+        function animate(offset) {
+                var newLeft = parseInt(list.style.left) + offset;
+                list.style.left = newLeft + 'px';
+                //一直滾動
+                if (newLeft > -600) {
+                    list.style.left = -600 * (count) + 'px';
+                }
+                if (newLeft < -600 * (count)) {
+                    list.style.left = -600 + 'px';
+                }
+            }
+
+            function stop() {
+                clearInterval(timer);
+            }
+
+            
+            prev.onclick = function () {
+                animate(600);
+            };
+
+            next.onclick = function () {
+                animate(-600);
+            
+            };
+        }
 		
         //click radio btn
 		function radioClick(radioValue)
@@ -380,16 +558,15 @@
 		
 		}
 		
+        //回到首頁(台北一日遊)
 		function returnIndex()
         {
 		   self.location="/";
 		}
         
+
+
         </script>
-
-
-
-
 
 
 
@@ -405,18 +582,19 @@
                     </div>
                 </div>
             </nav>
-            
 			
 			<div class="content">
-				<div id="divpic">
-					<img class="clsimg" id="img">
+				<div id="container">
+                    <div id="list" style="left:-600px;" class="classList"></div>
+                    <a href="javascript:;" id="prev" class="arrow" style="text-decoration:none;">&lt;</a>
+                    <a href="javascript:;" id="next"  class="arrow" style="text-decoration:none;">&gt;</a>
 				</div>
 				
 				<div class="info">
 					<span class="classTitle" id="title" style="display: block;"></span>
 					<span class="classSubtitle" id="subtitle" style="display: block;"></span>
 					<div class="booking">
-						<p class="bookTitle">訂購導覽行程</p>
+						<p class="bookSub">訂購導覽行程</p>
 						<p class="subContent">以此景點為中心的一日行程，帶您探索城市角落故事</p>
 						
 						<div style="display:flex"><p class="bookSub">選擇日期：</p><input id="datetime" type="date" style="height: 31px;margin-top:7px;border: none;"><br></div>
@@ -425,11 +603,11 @@
 							<p class="bookSub">選擇時間： </p>
 							<div class="rbt_time" style="margin-top: 4px;">
                                 <label>
-                                    <input type="radio" name="demo-radio" class="demoHidden" value="morning" checked>
+                                    <input id="date_m" type="radio" name="demo-radio" class="demoHidden" onclick="radioClick(this)" value="morning" checked>
                                     <span class="radioInput"></span>上半天 
                                 </label>
                                 <label>
-                                    <input type="radio" name="demo-radio" class="demoHidden" value="night">
+                                    <input id="date_n" type="radio" name="demo-radio" class="demoHidden"  onclick="radioClick(this)" value="night">
                                     <span class="radioInput"></span>下半天
                                 </label>
                             
