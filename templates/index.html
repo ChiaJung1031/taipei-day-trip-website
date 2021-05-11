@@ -205,6 +205,54 @@
                 margin-top: 20px;
         }
 
+
+
+    /* 只是背景 */
+.DivGround
+{
+ position: absolute;
+ width: 400px;
+ height: 300px;
+ top: 30px;
+ left: 30px;
+ border: solid;
+ background-color: #66ccff;
+ text-align:center;
+}
+
+/* 遮罩，將整個瀏覽器佈滿，讓原本背景層都無法點選 */
+.DivOverlapMask
+{
+ position:fixed;
+ top:0px;
+ left:0px;
+ height:100%;
+ width:100%;
+ margin:0;
+ padding:0;
+ background:gray;
+ opacity:0.85;
+ filter: alpha(opacity=85);
+ -moz-opacity: 0.85;
+ visibility:hidden;
+}
+
+/* Modal Dialog 層 */
+.DivDialog
+{
+ position:fixed;
+ width:200px;
+ height:100px;
+ margin:0;
+ padding:0;
+ left:100px;
+ top:100px;
+    background-color: #eeaaaa;
+ border-radius: 10px;
+ visibility:hidden;
+}
+
+
     
     @media screen and  (min-width:1001px) and (max-width:1200px){
         .view>.profiles {
@@ -502,7 +550,7 @@
 
         
         // 載入圖片
-            function loadimage(key,page)
+        function loadimage(key,page)
             {   
                         getdata =true;
                         let req = new XMLHttpRequest();
@@ -602,6 +650,22 @@
             }
         });
         
+
+
+        function clicksignin(){
+            ShowModalDialog( true );
+        }
+
+        
+        function ShowModalDialog(signin){
+            if ( true == signin )
+            {
+            $(".DivOverlapMask").css( "visibility", "visible" );
+            $(".DivDialog").css( "visibility", "visible" );
+            $(".closeDialog").css( "visibility", "visible" );
+            }
+        }
+
         </script>
         </head>
 
@@ -611,7 +675,7 @@
                     <div class="logo">台北一日遊</div>
                     <div class="menutype">
                         <div class="menu">預定行程</div> &nbsp;&nbsp;
-                        <div class="menu">登入/註冊</div> &nbsp;
+                        <div class="menu" onclick="clicksignin()">登入/註冊</div> &nbsp;
                     </div>
                 </div>
             </nav>
@@ -659,6 +723,16 @@
 
 
             <div class="footer">COPYRIGHT © 2021 台北一日遊</div>
+
+            <div class= "DivGround">
+                <div class = "DivOverlapMask" >
+                    <div class = "DivDialog">       
+                      
+                    </div>
+                </div>
+            </div>
+
+
         
         </body>
     </html>
