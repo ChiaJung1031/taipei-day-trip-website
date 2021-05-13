@@ -446,14 +446,14 @@
          {
             var count;
 
+            
+
             if(document.getElementById('date_m').checked == true)
             {
                 radio_value = document.getElementById('radio_value');
                 let cat = document.createTextNode("新台幣2000元"); 
-                radio_value.appendChild(cat); 
-                
+                radio_value.appendChild(cat);  
             }
-
 
             let req = new XMLHttpRequest();
             req.open("GET","/api/"+location.pathname)

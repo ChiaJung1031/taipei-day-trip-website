@@ -8,10 +8,12 @@ mydb= mysql.connector.connect(
   database="website"
 )
 
+
 app=Flask(__name__, static_url_path="/", static_folder="image")
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 app.config['JSON_SORT_KEYS']=False
+app.secret_key = '_5#y2L"F4Q8z\n\xec]/'
 
 # Pages
 @app.route("/")
@@ -33,8 +35,8 @@ def apiattract():
 	keyword=request.args.get("keyword","")
 	x=int(page)*12
 	limitnum= str(x)
-	with mydb.cursor() as cursor:
-		if keyword == None or keyword == "" and page != "":
+	if keyword == None or keyword == "" and page != "":	
+		with mydb.cursor() as cursor:
 			sqlcount="SELECT count(*) FROM travel"
 			cursor.execute(sqlcount)
 			resultCount = cursor.fetchall()
@@ -87,7 +89,8 @@ def apiattract():
 				msg = {"error": True, "message": "查無資料"}
 				return jsonify(msg)
 
-		elif keyword != None or keyword != "" and page != "":
+	elif keyword != None or keyword != "" and page != "":
+		with mydb.cursor() as cursor:
 			sqlcount="SELECT count(*) FROM travel WHERE stitle LIKE '%"+keyword+"%' "
 			cursor.execute(sqlcount)
 			resultCount = cursor.fetchall()
@@ -136,9 +139,9 @@ def apiattract():
 								All={'nextpage':None,'data':travellist} 
 								return jsonify(All)
 							
-			else:
-				msg = {"error": True, "message": "查無資料"}
-				return jsonify(msg)
+	else:
+		msg = {"error": True, "message": "查無資料"}
+		return jsonify(msg)
 
 
 @app.route("/api/attraction/<attractionId>",methods=["GET"])
@@ -177,6 +180,81 @@ def apiattractid(attractionId):
 		else:
 			msg = {"error": True, "message": "編號輸入錯誤"}
 			return jsonify(msg)
+
+
+@app.route("/api/user",methods=["POST"])
+def apiusersignup():
+	password=request.args.get("password","")
+	email=request.args.get("email","")
+	username=request.args.get("name","")
+	if request.method == "POST":
+		with mydb.cursor() as cursor:
+			if email !="" and username !="" and password !="":
+					sql="SELECT email FROM user WHERE email= '"+email+"'"
+					cursor.execute(sql)
+					result = cursor.fetchall()
+					if len(result) == 1:
+						data = {"error":True,"message":"註冊失敗，請確認Email是否重複"}
+						return jsonify(data)
+					else:
+						sql = "INSERT INTO user (name,email,password) VALUES (%s,%s,%s)"
+						value = (username,email,password)
+						cursor.execute(sql,value)
+						mydb.commit()
+						print(cursor.rowcount, "record(s) affected")
+						if cursor.rowcount == 1 :
+							data = {"ok":True}
+							return jsonify(data)
+						else:
+							data = {"error":True,"message":"註冊失敗，請確認Email是否重複"}
+							return jsonify(data)
+
+@app.route("/api/user",methods=["PATCH"])
+def apiusersignin():
+	password=request.args.get("password","")
+	email=request.args.get("email","")
+	with mydb.cursor() as cursor:
+			if password !="" and email !="":
+					sql = "SELECT id,email,name FROM user WHERE email=%s AND password=%s"
+					value = (email,password)
+					cursor.execute(sql,value)
+					myresult = cursor.fetchall()
+					if len(myresult) == 1 :
+						for i in myresult:
+							session["id"]=i[0]
+							session["email"]=i[1]
+							session["name"]=i[2]
+							data = {"ok":True}
+							return jsonify(data)
+					else:
+						session["email"]= False
+						session["password"]= False
+						data = {"error":True,"message":"登入失敗，帳號或密碼錯誤"}
+						return jsonify(data)
+
+@app.route("/api/user",methods=["GET"])
+def apiusercheck():
+	if request.method == "GET":
+		id = session.get('id') 
+		email = session.get('email')  
+		name = session.get('name') 
+		print(id,"...............................................................................")
+		if id != None and email != None and name != None :
+			data = {"data":{"id":id,"name":name,"email":email}}
+			return jsonify(data)
+		else:
+			data = {data:None}
+			return jsonify(data)
+
+@app.route("/api/user",methods=["DELETE"])
+def apiuserlogout():
+	session.clear()
+	data = {"ok":True}
+	return jsonify(data)
+			
+
+
+	
 
 
 
