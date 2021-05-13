@@ -1,6 +1,7 @@
 from flask import *
 import mysql.connector
 from mysql.connector import errorcode
+from datetime import timedelta
 mydb= mysql.connector.connect(
   host="localhost",
   user="root",
@@ -14,6 +15,7 @@ app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 app.config['JSON_SORT_KEYS']=False
 app.secret_key = '_5#y2L"F4Q8z\n\xec]/'
+app.permanent_session_lifetime = timedelta(minutes=30)
 
 # Pages
 @app.route("/")
@@ -243,7 +245,7 @@ def apiusercheck():
 			data = {"data":{"id":id,"name":name,"email":email}}
 			return jsonify(data)
 		else:
-			data = {data:None}
+			data = {"data":None}
 			return jsonify(data)
 
 @app.route("/api/user",methods=["DELETE"])
@@ -252,14 +254,6 @@ def apiuserlogout():
 	data = {"ok":True}
 	return jsonify(data)
 			
-
-
-	
-
-
-
-
-
 
 
 app.run(host="0.0.0.0",port=3000)
