@@ -264,7 +264,7 @@
         margin: auto;
         padding: 20px;
         border: 1px solid #888;
-        width: 20%;
+        width: 310px;
         box-shadow: 0px 4px 60px #AAAAAA;
         border-radius: 6px;
     }
@@ -276,7 +276,7 @@
         margin: auto;
         padding: 20px;
         border: 1px solid #888;
-        width: 20%;
+        width: 310px;
         box-shadow: 0px 4px 60px #AAAAAA;
         border-radius: 6px;
     }
@@ -359,6 +359,7 @@
             top: 0px;
             left: -10px;
         }
+  
 
         
      }
@@ -386,7 +387,7 @@
             bottom: 132px;
             width: 80%;
         }
-
+   
      }
 
      @media screen and  (min-width:601px) and (max-width:850px){
@@ -444,7 +445,8 @@
             background: linear-gradient( 135deg , #AADDEE 0%, #66AABB 100%);
             z-index: -2;
         }
-     
+  
+            
      }
    
     
@@ -563,15 +565,7 @@
             margin-top: 10px;
             position: relative;
         }
-        .signin_content,.signup_content{
-            background-color: #fefefe;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 100%; 
-            box-shadow: 0px 4px 60px #aaaaaa;
-            border-radius: 6px;
-        }
+  
 
         #nosignin{margin-left: -10%;margin-bottom: -5px;}
         #nosignup{margin-left: -10%;margin-bottom: -5px;}
@@ -990,7 +984,7 @@
                         <img class="close"  id="close" src="/icon_close.png" >
                     </div>
                     <input type="text" id="id_email" placeholder="輸入電子信箱"><br><br>
-                    <input type="text" id="id_pwd" placeholder="輸入密碼"><br><br>
+                    <input type="password"  id="id_pwd" placeholder="輸入密碼"><br><br>
                     <button onclick="btn_signin()">登入帳戶</button><br>
                     <label id="errmsg_login" class="error_msg"></label>
                     <p id="nosignin" onclick="signup()">還沒有帳戶？點此註冊</p>
