@@ -32,6 +32,13 @@
         margin-top: 20px;
         margin-right: 25px;
     }
+    .menuout{
+        display: none;
+        flex:none;
+        font-size: 16px;
+        color: #666666;
+        margin-right: 25px;
+    }
     
     .new{
         display:flex;
@@ -204,6 +211,96 @@
                 color: #666666;
                 margin-top: 20px;
         }
+    
+    .cls_signin{
+        font-family: Noto Sans TC;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 24px;
+        display: flex;
+        margin: 0px 0 15px 25%;
+        color: #666666;
+        }
+
+    .signin_content > input,.signup_content > input{
+        height: 47px;
+        background: #FFFFFF;
+        border: 1px solid #CCCCCC;
+        box-sizing: border-box;
+        border-radius: 5px;
+        width: 310px;
+    }
+    .signin_content > button ,.signup_content > button {
+        width: 310px;
+        height: 47px;
+        left: 0px;
+        top: 156px;
+        background: #448899;
+        border-radius: 5px;
+        color: white;
+        font-size: 19px;
+    }
+    #nosignin{text-align: center; margin-bottom: -5px;}
+    #nosignup{text-align: center; margin-bottom: -5px;}
+
+    /* The Modal background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 3; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; 
+        height: 100%;
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black opacity */
+    }
+
+    /* Modal Content */
+    .signin_content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 310px;
+        box-shadow: 0px 4px 60px #AAAAAA;
+        border-radius: 6px;
+    }
+
+    /* Modal Content */
+    .signup_content {
+        display: none;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 310px;
+        box-shadow: 0px 4px 60px #AAAAAA;
+        border-radius: 6px;
+    }
+
+
+    /* The Close Button */
+    .close {
+        width: 16px;
+        height: 16px;
+        margin: 0px 0 0 20%;
+    }
+
+    .close:hover,.close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .error_msg{
+        display: none;   
+        text-align: center;
+        margin: 10px 0 -9px 0;
+        color: red;
+    }
 
     
     @media screen and  (min-width:1001px) and (max-width:1200px){
@@ -262,6 +359,7 @@
             top: 0px;
             left: -10px;
         }
+  
 
         
      }
@@ -289,7 +387,7 @@
             bottom: 132px;
             width: 80%;
         }
-
+   
      }
 
      @media screen and  (min-width:601px) and (max-width:850px){
@@ -347,7 +445,8 @@
             background: linear-gradient( 135deg , #AADDEE 0%, #66AABB 100%);
             z-index: -2;
         }
-     
+  
+            
      }
    
     
@@ -466,7 +565,17 @@
             margin-top: 10px;
             position: relative;
         }
-       
+  
+
+        #nosignin{margin-left: -10%;margin-bottom: -5px;}
+        #nosignup{margin-left: -10%;margin-bottom: -5px;}
+        #errmsg{display: none;}
+        .error_msg {
+            display: none;
+            text-align: center;
+            margin: 10px 0 -9px -40px;
+            color: red;
+        }
     }
     
     </style>
@@ -485,8 +594,33 @@
         window.onload = function ()
         {
             loadimage("",0);
+            //check user verified
+            let req = new XMLHttpRequest();
+            req.open("GET","/api/user")
+            req.onload = function()
+            {
+                let data = JSON.parse(this.response);
+                console.log(data["data"])
+                if(data["data"] != null)
+                {
+                    let signin = document.getElementById("signin");
+                    signin.style.display="none";
+                    let signout = document.getElementById("signout");
+                    signout.style.display="block";
+                }
+                else
+                {
+                    let signin = document.getElementById("signin");
+                    signin.style.display="block";
+                    let signout = document.getElementById("signout");
+                    signout.style.display="none";
+                }
+
+            }
+            req.send();
         }
-        
+
+    
 
         //關鍵字查詢
         function clickpic()
@@ -502,8 +636,8 @@
 
         
         // 載入圖片
-            function loadimage(key,page)
-            {   
+        function loadimage(key,page)
+         {   
                         getdata =true;
                         let req = new XMLHttpRequest();
                         if(page==""){page=0;}
@@ -602,6 +736,184 @@
             }
         });
         
+        //點選登入
+        function clicksignin(){
+            let msg = document.getElementById("errmsg_login");
+            msg.style.display = "none";
+            document.getElementById("id_email").value="";
+            document.getElementById("id_pwd").value="";
+            let modal = document.getElementById("myModal");
+            let close = document.getElementById("close");
+            let signup_content = document.getElementById("signup_content");
+            signup_content.style.display = "none"
+            let signin_content = document.getElementById("signin_content");
+            signin_content.style.display = "block"
+            modal.style.display = "block";
+            close.onclick = function()
+            {
+                modal.style.display = "none";
+            }
+ 
+            window.onclick = function(event) 
+            {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+     
+
+        //登入註冊
+        function signup(){
+            let msg = document.getElementById("errmsg");
+            msg.style.display = "none";
+            let modal = document.getElementById("myModal");
+            let signin_content = document.getElementById("signin_content");
+            signin_content.style.display = "none"
+            let signup_content = document.getElementById("signup_content");
+            signup_content.style.display = "block"
+            let signupclose = document.getElementById("signupclose");
+            
+            document.getElementById("sign_name").value="";
+            document.getElementById("sign_email").value="";
+            document.getElementById("sign_pwd").value="";
+            signupclose.onclick = function()
+            {
+                modal.style.display = "none";
+            }
+            window.onclick = function(event) 
+            {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+        //已有帳號要回登入頁面
+        function haveAccount(){
+            document.getElementById("id_email").value="";
+            document.getElementById("id_pwd").value="";
+            let modal = document.getElementById("myModal");
+            let signin_content = document.getElementById("signin_content");
+            signin_content.style.display = "block"
+            let signup_content = document.getElementById("signup_content");
+            signup_content.style.display = "none"
+            let close = document.getElementById("close");
+            close.onclick = function()
+            {
+                modal.style.display = "none";
+            }
+            window.onclick = function(event) 
+            {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+        //BTN signup
+        function btn_signup(){
+            let req = new XMLHttpRequest();
+            let name = document.getElementById("sign_name").value;
+            let email = document.getElementById("sign_email").value;
+            let pwd = document.getElementById("sign_pwd").value;
+            if (name== "" || email == "" || pwd=="")
+            {
+                let msg = document.getElementById("errmsg");
+                msg.style.display = "block";
+                msg.innerHTML="空格為必填";
+            }
+            else
+            {
+                if(email.includes("@"))
+                {
+                    let msg = document.getElementById("errmsg");
+                    msg.style.display = "none";
+                    req.open("POST","/api/user?email="+email+"&name="+name+"&password="+pwd)
+                    console.log("/api/user?email="+email+"&name="+name+"&password="+pwd)
+                    req.setRequestHeader('Content-type', 'application/json');
+                    req.onload = function () 
+                    {
+                        let data = JSON.parse(this.response);
+                        if(Object.keys(data)[0] != "error")
+                        {
+                            let msg = document.getElementById("errmsg");
+                            msg.style.display = "block";
+                            msg.innerHTML="註冊成功";
+                        }
+                        else
+                        {
+                            let msg = document.getElementById("errmsg");
+                            msg.style.display = "block";
+                            msg.innerHTML=data["message"];
+                        }
+                    }
+                    req.send();
+                }
+                else
+                {
+                    let msg = document.getElementById("errmsg");
+                    msg.style.display = "block";
+                    msg.innerHTML="信箱格式錯誤";
+                        
+                }
+               
+            }
+        }
+
+
+        //BTN signin
+        function btn_signin(){
+            let email = document.getElementById("id_email").value;
+            let pwd = document.getElementById("id_pwd").value;
+            if(email == "" || pwd =="")
+            {
+                let msg = document.getElementById("errmsg_login");
+                msg.style.display = "block";
+                msg.innerHTML="空格為必填"
+            }
+            else
+            {
+                let req = new XMLHttpRequest();
+                req.open("PATCH","/api/user?email="+email+"&password="+pwd)
+                req.onload = function () 
+                {
+                    let data = JSON.parse(this.response);
+                    if(Object.keys(data)[0] == "error")
+                    {
+                        let msg = document.getElementById("errmsg_login");
+                        msg.style.display = "block";
+                        msg.innerHTML=data["message"];
+                    }
+                    else
+                    {
+                        location.reload();
+                    }
+                }
+                req.send();
+             }
+          
+        }
+
+        //click logout
+        function clicksignout()
+        {
+            let req = new XMLHttpRequest();
+            req.open("DELETE","/api/user")
+            req.onload = function () 
+                {
+                    let data = JSON.parse(this.response);
+                    if(Object.keys(data)[0] == "ok")
+                    {
+                        location.reload();
+                    }
+                }
+                req.send();
+        }
+
+       
+
+
         </script>
         </head>
 
@@ -611,7 +923,8 @@
                     <div class="logo">台北一日遊</div>
                     <div class="menutype">
                         <div class="menu">預定行程</div> &nbsp;&nbsp;
-                        <div class="menu">登入/註冊</div> &nbsp;
+                        <div id="signin" class="menu" onclick="clicksignin()">登入/註冊</div> &nbsp;
+                        <div id="signout"  class="menuout" onclick="clicksignout()">登出系統</div> 
                     </div>
                 </div>
             </nav>
@@ -659,6 +972,39 @@
 
 
             <div class="footer">COPYRIGHT © 2021 台北一日遊</div>
-        
+
+
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+
+                <!-- Modal signin content -->
+                <div id="signin_content" class="signin_content">
+                    <div style="display:flex;">
+                        <p class="cls_signin">登入會員帳號</p>
+                        <img class="close"  id="close" src="/icon_close.png" >
+                    </div>
+                    <input type="text" id="id_email" placeholder="輸入電子信箱"><br><br>
+                    <input type="password"  id="id_pwd" placeholder="輸入密碼"><br><br>
+                    <button onclick="btn_signin()">登入帳戶</button><br>
+                    <label id="errmsg_login" class="error_msg"></label>
+                    <p id="nosignin" onclick="signup()">還沒有帳戶？點此註冊</p>
+                </div>
+                <!-- Modal signup content -->   
+                <div id="signup_content" class="signup_content">
+                    <div style="display:flex;">
+                        <p class="cls_signin">註冊會員帳號</p>
+                        <img class="close" id="signupclose" src="/icon_close.png" >
+                    </div>
+                    <input type="text" id="sign_name" placeholder="輸入姓名"><br><br>
+                    <input type="text" id="sign_email" placeholder="輸入電子信箱"><br><br>
+                    <input type="text" id="sign_pwd" placeholder="輸入密碼"><br><br>
+                    <button onclick="btn_signup()">註冊新帳戶</button><br>
+                    <label id="errmsg" class="error_msg"></label>
+                    <p id="nosignup" onclick="haveAccount()">已經有帳戶了？點此登入</p>
+                </div>
+
+
+            </div>
+
         </body>
     </html>

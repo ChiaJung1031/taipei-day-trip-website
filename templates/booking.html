@@ -1,0 +1,298 @@
+<style>
+    html, body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        padding: 0px;
+    }
+    
+    nav{
+		height: 54px;
+		left: 0px;
+		top: 0px;
+		width: auto;
+		border-bottom: groove;
+		border-color: #eff3f547;
+    }
+
+    nav > .new>.logo{
+        flex:auto;
+        font-size: 30px;
+        color: #448899;
+        font-weight: bold;
+        font-style: normal;
+        font-family: Noto Sans;
+        margin-top: 10px;
+        position: relative;
+        margin-left: 35px;
+    }
+    
+    nav > .new>.menu{
+        flex:none;
+        font-size: 16px;
+        color: #666666;
+        margin-top: 20px;
+        margin-right: 25px;
+    }
+    
+    .new{
+        display:flex;
+        flex-wrap:wrap; 
+        justify-content:center; 
+        width: 1200px;
+         margin: 0px auto;
+    }
+ 
+    .menutype{
+            display: flex;
+            font-size: 16px;
+            color: #666666;
+            margin-top: 20px;
+        }
+	
+    .footer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        left: 0px;
+        background: #757575;
+        margin-top: 70px;
+        padding: 50px;
+        font-size: 16px;
+        color: #FFFF;
+        font-weight: bold;
+        }
+
+     #hr{width: 1200px;}
+	 
+	 .title{
+	    font-family: Noto Sans TC;
+		font-style: normal;
+		font-weight: bold;
+		font-size: 19px;
+		line-height: 16px;
+		align-items: center;
+		color: #666666;
+	 }
+	
+	.subtitle{
+		font-family: Noto Sans TC;
+		font-style: normal;
+		font-weight: bold;
+		font-size: 16px;
+		line-height: 20px;
+		align-items: center;
+		color: #666666;
+	}
+	.subcontent{
+		font-family: Noto Sans TC;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 13px;
+		align-items: center;
+		color: #666666;
+	}
+	
+	.contentbox{    
+		display: flex;
+		margin: 50px 0 0 21%;
+	}
+	.contentline{display: flex;}
+	
+	.pic{margin-right: 2%;}
+	.title{margin: 35px 0 -35px 21%;}
+	.inputbox{margin-bottom: 20px;}
+	.info{margin: 62px 0 0 21%;}
+	
+	.info > .contentline > input
+	{
+		width:225px;
+		background: #FFFFFF;
+		border: 1px solid #E8E8E8;
+		box-sizing: border-box;
+		border-radius: 5px;
+	}
+	
+	.booking > button{
+		background: #448899;
+		border-radius: 5px;
+		color: #FFFFFF;
+		border: hidden;
+		padding: 7px 20px;
+		font-size: 19px;
+	}
+	.booking{margin-left: 75%;}
+	
+    @media screen and  (min-width:1001px) and (max-width:1200px){
+     
+        .new{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: auto;
+            margin: 0px auto;
+        }
+      
+        #hr {
+            width: 90%;
+        }
+		
+            
+     }
+
+     @media screen and  (min-width:851px) and (max-width:1000px){
+    
+        .new {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: auto;
+            margin: 0px auto;
+        }
+   
+        #hr {
+            width: 90%;
+        }
+  
+
+     }
+
+     @media screen and  (min-width:601px) and (max-width:850px){
+        .new {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: auto;
+            margin: 0px auto;
+        }
+        #hr{width: 90%;}
+
+     
+     }
+   
+    
+    @media screen and (max-width:600px){
+     
+        .new{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 370px;
+            margin: 0px auto auto -6px;
+
+        }
+       
+       
+        .menutype{
+                display: flex;
+                font-size: 16px;
+                color: #666666;
+                margin-top: 20px;
+                margin-right: -9px;
+        }
+        nav > .new>.logo {
+            flex: auto;
+            font-size: 30px;
+            color: #448899;
+            font-weight: bold;
+            font-style: normal;
+            font-family: Noto Sans;
+            margin-top: 10px;
+            position: relative;
+        }
+
+
+        #hr{width: 90%;}
+		.booking {
+			margin-left: 50%;
+		}
+		.contentbox {margin: 50px 0 0 5%;flex-direction: column;}
+		.content{margin-top:40px}
+		.title {margin: 35px 0 -35px 5%;}
+		.info {margin: 60px 0 0 5%;}
+    }
+    
+</style>
+    
+    <!DOCTYPE html>
+    <html>
+        <head>
+        <meta charest="utf-8" name="viewport" content="width=device-width, initial-scale=1, user-scalable=1.0"/>
+        <title>台北一日遊</title>
+        
+        <script type="text/javascript">
+
+		
+        //回到首頁(台北一日遊)
+		function returnIndex()
+        {
+		   self.location="/";
+		}
+        
+
+
+        </script>
+
+
+
+        </head>
+
+        <body>
+            <nav>
+                <div class="new">
+                    <div class="logo" onclick="returnIndex()">台北一日遊</div>
+                    <div class="menutype">
+                        <div class="menu">預定行程</div> &nbsp;&nbsp;
+                        <div class="menu">登入/註冊</div> &nbsp;
+                    </div>
+                </div>
+            </nav>
+			
+			
+			<div class="title">你好啊胖</div>
+			<div class="contentbox">			
+				<div class="pic">
+					<img style="width: 200px;height: 300px;" src="D:\python\project\image\apun.jpg">
+				</div>
+				<div class="content">
+					<div class="subtitle" style="color: #448899;">台北一日遊平安</div>
+					<div class="contentline"><p class="subtitle">日期：</p><p class="subcontent">11111</p></div>
+					<div class="contentline"><p class="subtitle">時間：</p><p class="subcontent">11111</p></div>
+					<div class="contentline"><p class="subtitle">費用：</p><p class="subcontent">111111</p></div>
+					<div class="contentline"><p class="subtitle">地點：</p><p class="subcontent">111111</p></div>
+				</div>
+			</div>
+			
+			<hr id="hr" size="1px" style="margin-top:40px">
+			
+		    <div class="title">您的聯絡資料</div>
+			<div class="info">
+				<div class="contentline inputbox"><p class="subtitle">聯絡姓名：</p><input type="text"></div>
+				<div class="contentline inputbox"><p class="subtitle">聯絡信箱：</p><input type="text"></div>
+				<div class="contentline inputbox"><p class="subtitle">手機號碼：</p><input type="text"></div>
+				<div class="subtitle">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
+
+			</div>
+		
+            
+			<hr id="hr" size="1px" style="margin-top:40px">
+			
+			 <div class="title">信用卡付款資訊</div>
+			<div class="info">
+				<div class="contentline inputbox"><p class="subtitle">卡片號碼：</p><input type="text" placeholder="**** **** **** ****"></div>
+				<div class="contentline inputbox"><p class="subtitle">過期時間：</p><input type="text" placeholder="MM / YY"></div>
+				<div class="contentline inputbox"><p class="subtitle">驗證密碼：</p><input type="text" placeholder="CVV"></div>
+			</div>
+			
+			<hr id="hr" size="1px" style="margin-top:40px">
+			
+			<div class="booking">
+				<div><p>總價：~~~~~~~~~</p></div>
+				<button type="button">確認訂購並付款</button>
+			</div>
+
+            <div class="footer">COPYRIGHT © 2021 台北一日遊</div>
+        
+        </body>
+    </html>
