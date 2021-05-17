@@ -317,6 +317,13 @@
         color: red;
     }
 
+    .menuout {
+        display: none;
+        flex: none;
+        font-size: 16px;
+        color: #666666;
+        margin-right: 25px;
+    }
 
 	
     @media screen and  (min-width:1001px) and (max-width:1200px){
@@ -350,10 +357,10 @@
             width: 90%;
         }
         .booking {
-        background-color: #E8E8E8;
-        width: 95%;
-        border-radius: 5px;
-        padding: 7%;
+            background-color: #E8E8E8;
+            width: 95%;
+            border-radius: 5px;
+            padding: 7%;
         }
             
      }
@@ -393,6 +400,13 @@
             width: 800px;
             justify-content: center;
             margin: 35px auto;
+        }
+        .menuout{
+            display: none;
+            flex:none;
+            font-size: 16px;
+            color: #666666;
+            margin-right: 25px;
         }
 
      }
@@ -442,7 +456,7 @@
             width: 112%;
             height: 400px;
             overflow: hidden;
-            margin-left: -6%;
+        /*  margin-left: -6%; */
             margin-bottom: 15px;
         }
      
@@ -457,16 +471,14 @@
             justify-content: center;
             width: 370px;
             margin: 0px auto auto -6px;
-
         }
-       
-       
+              
         .menutype{
-                display: flex;
-                font-size: 16px;
-                color: #666666;
-                margin-top: 20px;
-                margin-right: -9px;
+            display: flex;
+            font-size: 16px;
+            color: #666666;
+            margin-top: 20px;
+            margin-right: -5px;
         }
         nav > .new>.logo {
             flex: auto;
@@ -516,7 +528,7 @@
             width: 112%;
             height: 400px;
             overflow: hidden;
-            margin-left: -6%;
+          /*  margin-left: -6%;*/
             margin-bottom: 15px;
         }
 
@@ -543,34 +555,12 @@
 
          window.onload = function ()
          {
+            let index="index";
+            checkuser(index);
+
             var count;
 
-            //check user verified
-            let request = new XMLHttpRequest();
-            request.open("GET","/api/user")
-            request.onload = function()
-            {
-                let data = JSON.parse(this.response);
-                console.log(data["data"])
-                if(data["data"] != null)
-                {
-                    let signin = document.getElementById("signin");
-                    signin.style.display="none";
-                    let signout = document.getElementById("signout");
-                    signout.style.display="block";
-                }
-                else
-                {
-                    let signin = document.getElementById("signin");
-                    signin.style.display="block";
-                    let signout = document.getElementById("signout");
-                    signout.style.display="none";
-                }
-
-            }
-            request.send();
-
-
+            //rbt預設上午場
             if(document.getElementById('date_m').checked == true)
             {
                 radio_value = document.getElementById('radio_value');
@@ -578,6 +568,7 @@
                 radio_value.appendChild(cat);  
             }
 
+            //產內容
             let req = new XMLHttpRequest();
             req.open("GET","/api/"+location.pathname)
             req.setRequestHeader('Content-type', 'application/json');
@@ -670,7 +661,7 @@
 				let cat = document.createTextNode("新台幣2000元"); 
 				radio_value.appendChild(cat); 
 			}
-		    else if (radioValue.value == "night")
+		    else if (radioValue.value == "afternoon")
 			{
 				radio_value = document.getElementById('radio_value');
 				radio_value.innerHTML = "";
@@ -686,6 +677,42 @@
 		   self.location="/";
 		}
         
+        //check user verified
+        function checkuser(page)
+        {
+            let request = new XMLHttpRequest();
+            request.open("GET","/api/user")
+            request.onload = function()
+            {
+                let data = JSON.parse(this.response);
+                console.log(data["data"])
+                if(data["data"] != null)
+                {
+                    let signin = document.getElementById("signin");
+                    signin.style.display="none";
+                    let signout = document.getElementById("signout");
+                    signout.style.display="block";
+                    if(page == "book")
+                    {
+                        self.location="/booking";
+                    }
+                }
+                else
+                {
+                    let signin = document.getElementById("signin");
+                    signin.style.display="block";
+                    let signout = document.getElementById("signout");
+                    signout.style.display="none";
+                    if(page == "book")
+                    {
+                        clicksignin();
+                    }
+                }
+
+            }
+            request.send();
+        }
+
          //點選登入
          function clicksignin(){
             let msg = document.getElementById("errmsg_login");
@@ -843,6 +870,7 @@
              }
         }
 
+
         function clicksignout()
         {
             let req = new XMLHttpRequest();
@@ -858,6 +886,63 @@
                 req.send();
         }
 
+
+        function startbook()
+        {
+            let id = location.pathname.split('/')[2];
+            let date = document.getElementById("datetime").value;
+            let time = document.getElementsByName("demo-radio");
+            let timeval="";
+            let price ="";
+
+            if(time[0].checked)
+            {
+                timeval=time[0].value;
+                price = "2000";
+            }
+            else if(time[1].checked)
+            {
+                timeval=time[1].value;
+                price = "2500";
+            }
+            
+            if(date == "") //判斷日期未填
+            {
+                alert("請選擇日期")
+            }
+            else
+            {
+                let booking = {attractionId:id,date:date,time:timeval,price:price}
+                let data = JSON.stringify(booking);
+                let req = new XMLHttpRequest();
+                req.open("POST","/api/booking")
+                req.setRequestHeader('Content-type', 'application/json');
+                req.send(data);
+                req.onload = function(){
+                    let response= JSON.parse(this.response);
+                    if(Object.keys(response)[0] == "ok")
+                    {
+                        //暫時先用alert顯示預定成功
+                        alert("預定成功！")
+                    }
+                    else
+                    {
+                        let error = response["message"];
+                        alert(error);
+                    }
+                };
+
+            }
+          
+        }
+
+        //到預定行程
+        function gobooking(){
+            let book="book";
+            checkuser(book);
+        }
+
+
         </script>
 
 
@@ -869,7 +954,7 @@
                 <div class="new">
                     <div class="logo" onclick="returnIndex()">台北一日遊</div>
                     <div class="menutype">
-                        <div class="menu">預定行程</div> &nbsp;&nbsp;
+                        <div class="menu" onclick="gobooking()">預定行程</div> &nbsp;&nbsp;
                         <div id="signin" class="menu" onclick="clicksignin()">登入/註冊</div> &nbsp;
                         <div id="signout"  class="menuout" onclick="clicksignout()">登出系統</div> 
 
@@ -901,7 +986,7 @@
                                     <span class="radioInput"></span>上半天 
                                 </label>
                                 <label>
-                                    <input id="date_n" type="radio" name="demo-radio" class="demoHidden"  onclick="radioClick(this)" value="night">
+                                    <input id="date_n" type="radio" name="demo-radio" class="demoHidden"  onclick="radioClick(this)" value="afternoon">
                                     <span class="radioInput"></span>下半天
                                 </label>
                             
@@ -911,7 +996,7 @@
 							<p class="bookSub">導覽費用：</p><p class="subContent" id="radio_value" style="margin-top: 29px;"><p><br>
 						</div>
 				
-						<button type="button">開始預訂行程</button>
+						<button type="button" onclick="startbook()">開始預訂行程</button>
 					</div>
 				</div>
 				
@@ -955,7 +1040,7 @@
                         </div>
                         <input type="text" id="sign_name" placeholder="輸入姓名"><br><br>
                         <input type="text" id="sign_email" placeholder="輸入電子信箱"><br><br>
-                        <input type="text" id="sign_pwd" placeholder="輸入密碼"><br><br>
+                        <input type="password" id="sign_pwd" placeholder="輸入密碼"><br><br>
                         <button onclick="btn_signup()">註冊新帳戶</button><br>
                         <label id="errmsg" class="error_msg"></label>
                         <p id="nosignup" onclick="haveAccount()">已經有帳戶了？點此登入</p>

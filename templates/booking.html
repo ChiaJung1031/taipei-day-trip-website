@@ -89,7 +89,7 @@
 		font-style: normal;
 		font-weight: normal;
 		font-size: 16px;
-		line-height: 13px;
+        
 		align-items: center;
 		color: #666666;
 	}
@@ -98,10 +98,10 @@
 		display: flex;
 		margin: 50px 0 0 21%;
 	}
-	.contentline{display: flex;}
+	.contentline{display: flex;margin-top: -5px;}
 	
 	.pic{margin-right: 2%;}
-	.title{margin: 35px 0 -35px 21%;}
+	.title{margin: 35px 0 -20px 21%;}
 	.inputbox{margin-bottom: 20px;}
 	.info{margin: 62px 0 0 21%;}
 	
@@ -123,6 +123,112 @@
 		font-size: 19px;
 	}
 	.booking{margin-left: 75%;}
+    .deletepic{
+        float: right;
+        margin: -27px 0 0 600px;
+        }
+
+        .menutype{
+        display: flex;
+        font-size: 16px;
+        color: #666666;
+        margin-top: 20px;
+    }
+    
+    .cls_signin{
+        font-family: Noto Sans TC;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 24px;
+        display: flex;
+        margin: 0px 0 15px 25%;
+        color: #666666;
+        }
+
+    .signin_content > input,.signup_content > input{
+        height: 47px;
+        background: #FFFFFF;
+        border: 1px solid #CCCCCC;
+        box-sizing: border-box;
+        border-radius: 5px;
+        width: 310px;
+    }
+    .signin_content > button ,.signup_content > button {
+        width: 310px;
+        height: 47px;
+        left: 0px;
+        top: 156px;
+        background: #448899;
+        border-radius: 5px;
+        color: white;
+        font-size: 19px;
+    }
+    #nosignin{text-align: center; margin-bottom: -5px;}
+    #nosignup{text-align: center; margin-bottom: -5px;}
+
+    /* The Modal background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 3; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; 
+        height: 100%;
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black opacity */
+    }
+
+    /* Modal Content */
+    .signin_content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 310px;
+        box-shadow: 0px 4px 60px #AAAAAA;
+        border-radius: 6px;
+    }
+
+    /* Modal Content */
+    .signup_content {
+        display: none;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 310px;
+        box-shadow: 0px 4px 60px #AAAAAA;
+        border-radius: 6px;
+    }
+
+
+    /* The Close Button */
+    .close {
+        width: 16px;
+        height: 16px;
+        margin: 0px 0 0 20%;
+    }
+
+    .close:hover,.close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .error_msg{
+        display: none;   
+        text-align: center;
+        margin: 10px 0 -9px 0;
+        color: red;
+    }
+
+    #picture{
+        width: 266px;
+        height: 200px;
+    }
 	
     @media screen and  (min-width:1001px) and (max-width:1200px){
      
@@ -183,13 +289,12 @@
 
         }
        
-       
         .menutype{
                 display: flex;
                 font-size: 16px;
                 color: #666666;
                 margin-top: 20px;
-                margin-right: -9px;
+                margin-right: -5px;
         }
         nav > .new>.logo {
             flex: auto;
@@ -202,7 +307,6 @@
             position: relative;
         }
 
-
         #hr{width: 90%;}
 		.booking {
 			margin-left: 50%;
@@ -211,6 +315,15 @@
 		.content{margin-top:40px}
 		.title {margin: 35px 0 -35px 5%;}
 		.info {margin: 60px 0 0 5%;}
+        #nosignin{margin-left: -10%;margin-bottom: -5px;}
+        #nosignup{margin-left: -10%;margin-bottom: -5px;}
+        #errmsg{display: none;}
+        .error_msg {
+            display: none;
+            text-align: center;
+            margin: 10px 0 -9px -40px;
+            color: red;
+        }
     }
     
 </style>
@@ -223,13 +336,271 @@
         
         <script type="text/javascript">
 
-		
+        window.onload=function()
+        {
+            let index="index";
+            checkuser(index);
+        }	
+
+           //確認登入狀態
+           function checkuser(page){
+             //check user verified
+            let req = new XMLHttpRequest();
+            req.open("GET","/api/user")
+            req.send();
+            req.onload = function()
+            {
+                let data = JSON.parse(this.response);
+                console.log(data["data"])
+                if(data["data"] != null)
+                {
+                    let signin = document.getElementById("signin");
+                    signin.style.display="none";
+                    let signout = document.getElementById("signout");
+                    signout.style.display="block";
+                    let welcome = document.getElementById("welcome");
+                    welcome.innerHTML="您好，"+data["data"]["name"]+"待預定的行程如下：";
+                    bookinginfo();
+                    if(page == "book")
+                    {
+                        bookinginfo();
+                    }
+                }
+                else
+                {
+                    let signin = document.getElementById("signin");
+                    signin.style.display="block";
+                    let signout = document.getElementById("signout");
+                    signout.style.display="none";
+                    if(page == "book")
+                    {
+                        clicksignin();
+                    }
+                }
+            }
+        }
+
         //回到首頁(台北一日遊)
 		function returnIndex()
         {
 		   self.location="/";
 		}
         
+
+        function bookinginfo(){
+            let request = new XMLHttpRequest();
+            request.open("GET","/api/booking")
+            request.onload = function()
+            {
+                let data = JSON.parse(this.response);
+                console.log(data["data"])
+                if(data["data"] != null)
+                {
+                    let pic = document.getElementById("picture");
+                    pic.setAttribute("src",data["data"]["attraction"]["image"]);//插入圖片
+                    let subtitle = document.getElementById("subtitle");
+                    subtitle.innerHTML="台北一日遊："+data["data"]["attraction"]["name"];
+                    let date = document.getElementById("date");
+                    date.innerHTML= data["data"]["date"];
+                    let time = document.getElementById("time");
+                    time.innerHTML= data["data"]["time"];
+                    let price = document.getElementById("price");
+                    price.innerHTML= "新台幣"+ data["data"]["price"]+"元";
+                    let address = document.getElementById("address");
+                    address.innerHTML=data["data"]["attraction"]["address"];
+                    let totalprice = document.getElementById("totalprice");
+                    totalprice.innerHTML="總價：新台幣"+data["data"]["price"]+"元";
+                }
+                else
+                {
+                    let error = response["message"];
+                    alert(error);
+                }
+
+            }
+            request.send();
+        }
+
+         //點選登入
+         function clicksignin(){
+            let msg = document.getElementById("errmsg_login");
+            msg.style.display = "none";
+            document.getElementById("id_email").value="";
+            document.getElementById("id_pwd").value="";
+            let modal = document.getElementById("myModal");
+            let close = document.getElementById("close");
+            let signup_content = document.getElementById("signup_content");
+            signup_content.style.display = "none"
+            let signin_content = document.getElementById("signin_content");
+            signin_content.style.display = "block"
+            modal.style.display = "block";
+            close.onclick = function()
+            {
+                modal.style.display = "none";
+            }
+ 
+            window.onclick = function(event) 
+            {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+     
+
+        //登入註冊
+        function signup(){
+            let msg = document.getElementById("errmsg");
+            msg.style.display = "none";
+            let modal = document.getElementById("myModal");
+            let signin_content = document.getElementById("signin_content");
+            signin_content.style.display = "none"
+            let signup_content = document.getElementById("signup_content");
+            signup_content.style.display = "block"
+            let signupclose = document.getElementById("signupclose");
+            
+            document.getElementById("sign_name").value="";
+            document.getElementById("sign_email").value="";
+            document.getElementById("sign_pwd").value="";
+            signupclose.onclick = function()
+            {
+                modal.style.display = "none";
+            }
+            window.onclick = function(event) 
+            {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+        //已有帳號要回登入頁面
+        function haveAccount(){
+            document.getElementById("id_email").value="";
+            document.getElementById("id_pwd").value="";
+            let modal = document.getElementById("myModal");
+            let signin_content = document.getElementById("signin_content");
+            signin_content.style.display = "block"
+            let signup_content = document.getElementById("signup_content");
+            signup_content.style.display = "none"
+            let close = document.getElementById("close");
+            close.onclick = function()
+            {
+                modal.style.display = "none";
+            }
+            window.onclick = function(event) 
+            {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+        //BTN signup
+        function btn_signup(){
+            let req = new XMLHttpRequest();
+            let name = document.getElementById("sign_name").value;
+            let email = document.getElementById("sign_email").value;
+            let pwd = document.getElementById("sign_pwd").value;
+            if (name== "" || email == "" || pwd=="")
+            {
+                let msg = document.getElementById("errmsg");
+                msg.style.display = "block";
+                msg.innerHTML="空格為必填";
+            }
+            else
+            {
+                if(email.includes("@"))
+                {
+                    let msg = document.getElementById("errmsg");
+                    msg.style.display = "none";
+                    req.open("POST","/api/user?email="+email+"&name="+name+"&password="+pwd)
+                    console.log("/api/user?email="+email+"&name="+name+"&password="+pwd)
+                    req.setRequestHeader('Content-type', 'application/json');
+                    req.onload = function () 
+                    {
+                        let data = JSON.parse(this.response);
+                        if(Object.keys(data)[0] != "error")
+                        {
+                            let msg = document.getElementById("errmsg");
+                            msg.style.display = "block";
+                            msg.innerHTML="註冊成功";
+                        }
+                        else
+                        {
+                            let msg = document.getElementById("errmsg");
+                            msg.style.display = "block";
+                            msg.innerHTML=data["message"];
+                        }
+                    }
+                    req.send();
+                }
+                else
+                {
+                    let msg = document.getElementById("errmsg");
+                    msg.style.display = "block";
+                    msg.innerHTML="信箱格式錯誤";
+                        
+                }
+               
+            }
+        }
+
+
+        //BTN signin
+        function btn_signin(){
+            let email = document.getElementById("id_email").value;
+            let pwd = document.getElementById("id_pwd").value;
+            if(email == "" || pwd =="")
+            {
+                let msg = document.getElementById("errmsg_login");
+                msg.style.display = "block";
+                msg.innerHTML="空格為必填"
+            }
+            else
+            {
+                let req = new XMLHttpRequest();
+                req.open("PATCH","/api/user?email="+email+"&password="+pwd)
+                req.onload = function () 
+                {
+                    let data = JSON.parse(this.response);
+                    if(Object.keys(data)[0] == "error")
+                    {
+                        let msg = document.getElementById("errmsg_login");
+                        msg.style.display = "block";
+                        msg.innerHTML=data["message"];
+                    }
+                    else
+                    {
+                        location.reload();
+                    }
+                }
+                req.send();
+             }
+          
+        }
+
+        //click logout
+        function clicksignout()
+        {
+            let req = new XMLHttpRequest();
+            req.open("DELETE","/api/user")
+            req.onload = function () 
+                {
+                    let data = JSON.parse(this.response);
+                    if(Object.keys(data)[0] == "ok")
+                    {
+                        location.reload();
+                    }
+                }
+                req.send();
+        }
+        
+        //到預定行程
+        function gobooking(){
+            let book="book";
+            checkuser(book);
+        }
 
 
         </script>
@@ -243,56 +614,93 @@
                 <div class="new">
                     <div class="logo" onclick="returnIndex()">台北一日遊</div>
                     <div class="menutype">
-                        <div class="menu">預定行程</div> &nbsp;&nbsp;
-                        <div class="menu">登入/註冊</div> &nbsp;
+                        <div class="menu"  onclick="gobooking()">預定行程</div> &nbsp;&nbsp;
+                        <div id="signin" class="menu" onclick="clicksignin()">登入/註冊</div> &nbsp;
+                        <div id="signout"  class="menuout" onclick="clicksignout()">登出系統</div> 
                     </div>
                 </div>
             </nav>
 			
 			
-			<div class="title">你好啊胖</div>
-			<div class="contentbox">			
-				<div class="pic">
-					<img style="width: 200px;height: 300px;" src="D:\python\project\image\apun.jpg">
-				</div>
-				<div class="content">
-					<div class="subtitle" style="color: #448899;">台北一日遊平安</div>
-					<div class="contentline"><p class="subtitle">日期：</p><p class="subcontent">11111</p></div>
-					<div class="contentline"><p class="subtitle">時間：</p><p class="subcontent">11111</p></div>
-					<div class="contentline"><p class="subtitle">費用：</p><p class="subcontent">111111</p></div>
-					<div class="contentline"><p class="subtitle">地點：</p><p class="subcontent">111111</p></div>
-				</div>
-			</div>
-			
-			<hr id="hr" size="1px" style="margin-top:40px">
-			
-		    <div class="title">您的聯絡資料</div>
-			<div class="info">
-				<div class="contentline inputbox"><p class="subtitle">聯絡姓名：</p><input type="text"></div>
-				<div class="contentline inputbox"><p class="subtitle">聯絡信箱：</p><input type="text"></div>
-				<div class="contentline inputbox"><p class="subtitle">手機號碼：</p><input type="text"></div>
-				<div class="subtitle">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
-
-			</div>
-		
+			<div class="title" id="welcome"></div>
+            <div>
+                <div class="contentbox">			
+                    <div class="pic">
+                        <img id="picture">
+                    </div>
+                    <div class="content">
+                        <div id="subtitle" class="subtitle" style="color: #448899;margin-bottom: 10px"></div>
+                        <div class="deletepic"><img src="/icon_delete.png"></div>
+                        <div class="contentline"><p class="subtitle">日期：</p><p id="date" class="subcontent"></p></div>
+                        <div class="contentline"><p class="subtitle">時間：</p><p id="time" class="subcontent"></p></div>
+                        <div class="contentline"><p class="subtitle">費用：</p><p id="price" class="subcontent"></p></div>
+                        <div class="contentline"><p class="subtitle">地點：</p><p id="address" class="subcontent"></p></div>
+                    </div>
+                </div>
+                
+                <hr id="hr" size="1px" style="margin-top:40px">
+                
+                <div class="title">您的聯絡資料</div>
+                <div class="info">
+                    <div class="contentline inputbox"><p class="subtitle">聯絡姓名：</p><input type="text" id="username"></div>
+                    <div class="contentline inputbox"><p class="subtitle">聯絡信箱：</p><input type="text" id="usermail"></div>
+                    <div class="contentline inputbox"><p class="subtitle">手機號碼：</p><input type="text" id="phone"></div>
+                    <div class="subtitle">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
+    
+                </div>
             
-			<hr id="hr" size="1px" style="margin-top:40px">
+                
+                <hr id="hr" size="1px" style="margin-top:40px">
+                
+                 <div class="title">信用卡付款資訊</div>
+                <div class="info">
+                    <div class="contentline inputbox"><p class="subtitle">卡片號碼：</p><input type="text" placeholder="**** **** **** ****"></div>
+                    <div class="contentline inputbox"><p class="subtitle">過期時間：</p><input type="text" placeholder="MM / YY"></div>
+                    <div class="contentline inputbox"><p class="subtitle">驗證密碼：</p><input type="text" placeholder="CVV"></div>
+                </div>
+                
+                <hr id="hr" size="1px" style="margin-top:40px">
+                
+                <div class="booking">
+                    <div><p id="totalprice"></p></div>
+                    <button type="button">確認訂購並付款</button>
+                </div>
+    
+                <div class="footer">COPYRIGHT © 2021 台北一日遊</div>
+    
+                      <!-- The Modal -->
+                      <div id="myModal" class="modal">
+    
+                        <!-- Modal signin content -->
+                        <div id="signin_content" class="signin_content">
+                            <div style="display:flex;">
+                                <p class="cls_signin">登入會員帳號</p>
+                                <img class="close"  id="close" src="/icon_close.png" >
+                            </div>
+                            <input type="text" id="id_email" placeholder="輸入電子信箱"><br><br>
+                            <input type="password"  id="id_pwd" placeholder="輸入密碼"><br><br>
+                            <button onclick="btn_signin()">登入帳戶</button><br>
+                            <label id="errmsg_login" class="error_msg"></label>
+                            <p id="nosignin" onclick="signup()">還沒有帳戶？點此註冊</p>
+                        </div>
+                        <!-- Modal signup content -->   
+                        <div id="signup_content" class="signup_content">
+                            <div style="display:flex;">
+                                <p class="cls_signin">註冊會員帳號</p>
+                                <img class="close" id="signupclose" src="/icon_close.png" >
+                            </div>
+                            <input type="text" id="sign_name" placeholder="輸入姓名"><br><br>
+                            <input type="text" id="sign_email" placeholder="輸入電子信箱"><br><br>
+                            <input type="password" id="sign_pwd" placeholder="輸入密碼"><br><br>
+                            <button onclick="btn_signup()">註冊新帳戶</button><br>
+                            <label id="errmsg" class="error_msg"></label>
+                            <p id="nosignup" onclick="haveAccount()">已經有帳戶了？點此登入</p>
+                        </div>
+                    </div>
+            </div>
 			
-			 <div class="title">信用卡付款資訊</div>
-			<div class="info">
-				<div class="contentline inputbox"><p class="subtitle">卡片號碼：</p><input type="text" placeholder="**** **** **** ****"></div>
-				<div class="contentline inputbox"><p class="subtitle">過期時間：</p><input type="text" placeholder="MM / YY"></div>
-				<div class="contentline inputbox"><p class="subtitle">驗證密碼：</p><input type="text" placeholder="CVV"></div>
-			</div>
-			
-			<hr id="hr" size="1px" style="margin-top:40px">
-			
-			<div class="booking">
-				<div><p>總價：~~~~~~~~~</p></div>
-				<button type="button">確認訂購並付款</button>
-			</div>
 
-            <div class="footer">COPYRIGHT © 2021 台北一日遊</div>
+
         
         </body>
     </html>
