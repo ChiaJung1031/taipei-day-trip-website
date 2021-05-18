@@ -705,7 +705,11 @@
                     signout.style.display="none";
                     if(page == "book")
                     {
-                        clicksignin();
+                        clicksignin(); //點[預定行程]但沒登入者
+                    }
+                    if(page=="startbook")
+                    {
+                        clicksignin(); //點[開始預訂]但沒登入者
                     }
                 }
 
@@ -912,6 +916,8 @@
             }
             else
             {
+                let startbook="startbook";
+                checkuser(startbook);  //確認是否有登入才能進行預定
                 let booking = {attractionId:id,date:date,time:timeval,price:price}
                 let data = JSON.stringify(booking);
                 let req = new XMLHttpRequest();
@@ -922,8 +928,7 @@
                     let response= JSON.parse(this.response);
                     if(Object.keys(response)[0] == "ok")
                     {
-                        //暫時先用alert顯示預定成功
-                        alert("預定成功！")
+                        self.location="/booking";
                     }
                     else
                     {

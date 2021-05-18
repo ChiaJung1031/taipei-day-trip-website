@@ -269,6 +269,7 @@ def newbooking():
 		sql_select = "SELECT * FROM booking WHERE email = '"+mail+"'"
 		cursor.execute(sql_select)
 		result=cursor.fetchall()
+		print(result,"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 		if mail != None and name != None:
 			if len(result) == 1:
 				sql = "UPDATE booking SET attractionId='"+attractionId+"',date='"+date+"',time='"+time+"',price='"+price+"' WHERE email='"+mail+"'"
@@ -278,7 +279,7 @@ def newbooking():
 					result = {"ok":True}
 					return jsonify(result)
 				else:
-					result = {"error":True,"message":"建立失敗，輸入不正確"}
+					result = {"error":True,"message":"建立更新失敗，輸入不正確"}
 					return jsonify(result)			
 			else:
 				sql = "INSERT INTO booking (email,attractionId,date,time,price) VALUES (%s,%s,%s,%s,%s)"
@@ -289,7 +290,7 @@ def newbooking():
 					result = {"ok":True}
 					return jsonify(result)
 				else:
-					result = {"error":True,"message":"建立失敗，輸入不正確"}
+					result = {"error":True,"message":"建立新增失敗，輸入不正確"}
 					return jsonify(result)
 
 		else:
@@ -329,6 +330,19 @@ def getbooking():
 		data={"error":True,"message":"未登入系統，拒絕存取"}
 		return jsonify(data)
 
+@app.route("/api/booking",methods=["DELETE"])
+def deletebooking():
+	mail = session.get('email') 
+	with mydb.cursor() as cursor:
+		sql="DELETE FROM booking WHERE email='"+mail+"'"
+		cursor.execute(sql)
+		mydb.commit()
+		if cursor.rowcount == 1:
+			result = {"ok":True}
+			return jsonify(result)
+		else:
+			result = {"error":True,"message":"未登入系統，拒絕存取"}
+			return jsonify(result)
 
 
 
