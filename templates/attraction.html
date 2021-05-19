@@ -25,6 +25,7 @@
         margin-top: 10px;
         position: relative;
         margin-left: 35px;
+        cursor: pointer;
     }
     
     nav > .new>.menu{
@@ -48,6 +49,7 @@
             font-size: 16px;
             color: #666666;
             margin-top: 20px;
+            cursor: pointer;
         }
 	
     .footer{
@@ -255,9 +257,10 @@
         border-radius: 5px;
         color: white;
         font-size: 19px;
+        cursor: pointer;
     }
-    #nosignin{text-align: center; margin-bottom: -5px;}
-    #nosignup{text-align: center; margin-bottom: -5px;}
+    #nosignin{text-align: center; margin-bottom: -5px;cursor: pointer;}
+    #nosignup{text-align: center; margin-bottom: -5px;cursor: pointer;}
 
     /* The Modal background) */
     .modal {
@@ -489,6 +492,7 @@
             font-family: Noto Sans;
             margin-top: 10px;
             position: relative;
+            cursor: pointer;
         }
 
         .placeIntro {
@@ -532,8 +536,8 @@
             margin-bottom: 15px;
         }
 
-        #nosignin{margin-left: -10%;margin-bottom: -5px;}
-        #nosignup{margin-left: -10%;margin-bottom: -5px;}
+        #nosignin{margin-left: -10%;margin-bottom: -5px;cursor: pointer;}
+        #nosignup{margin-left: -10%;margin-bottom: -5px;cursor: pointer;}
         #errmsg{display: none;}
         .error_msg {
             display: none;
@@ -890,7 +894,7 @@
                 req.send();
         }
 
-
+        //開始預訂
         function startbook()
         {
             let id = location.pathname.split('/')[2];
