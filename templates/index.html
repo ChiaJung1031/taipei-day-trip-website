@@ -189,6 +189,7 @@
         position: relative;
         top: -37px;
         left: 408px;
+        cursor: pointer;
     }
 
     .cetralpic{
@@ -204,13 +205,12 @@
         }
 
     .menutype{
-                /* display: flex; */
-                display: flex;
-                /* flex: none; */
-                font-size: 16px;
-                color: #666666;
-                margin-top: 20px;
-        }
+        display: flex;
+        font-size: 16px;
+        color: #666666;
+        margin-top: 20px;
+        cursor: pointer;
+    }
     
     .cls_signin{
         font-family: Noto Sans TC;
@@ -240,9 +240,10 @@
         border-radius: 5px;
         color: white;
         font-size: 19px;
+        cursor: pointer;
     }
-    #nosignin{text-align: center; margin-bottom: -5px;}
-    #nosignup{text-align: center; margin-bottom: -5px;}
+    #nosignin{text-align: center; margin-bottom: -5px;cursor: pointer;}
+    #nosignup{text-align: center; margin-bottom: -5px;cursor: pointer;}
 
     /* The Modal background) */
     .modal {
@@ -301,7 +302,6 @@
         margin: 10px 0 -9px 0;
         color: red;
     }
-
     
     @media screen and  (min-width:1001px) and (max-width:1200px){
         .view>.profiles {
@@ -412,6 +412,7 @@
             position: relative;
             top: -37px;
             left: 355px;
+            cursor: pointer;
         }
 
         .imgdiv > .imggreen {
@@ -519,6 +520,7 @@
             position: relative;
             top: -37px;
             left: 205px;
+            cursor: pointer;
         }
       
 
@@ -553,7 +555,7 @@
                 font-size: 16px;
                 color: #666666;
                 margin-top: 20px;
-                margin-right: -9px;
+                margin-right: -5px;
         }
         nav > .new>.logo {
             flex: auto;
@@ -567,8 +569,8 @@
         }
   
 
-        #nosignin{margin-left: -10%;margin-bottom: -5px;}
-        #nosignup{margin-left: -10%;margin-bottom: -5px;}
+        #nosignin{margin-left: -10%;margin-bottom: -5px;cursor: pointer;}
+        #nosignup{margin-left: -10%;margin-bottom: -5px;cursor: pointer;}
         #errmsg{display: none;}
         .error_msg {
             display: none;
@@ -594,9 +596,17 @@
         window.onload = function ()
         {
             loadimage("",0);
-            //check user verified
+            let index="index";
+            checkuser(index);
+         
+        }
+
+        //確認登入狀態
+        function checkuser(page){
+             //check user verified
             let req = new XMLHttpRequest();
             req.open("GET","/api/user")
+            req.send();
             req.onload = function()
             {
                 let data = JSON.parse(this.response);
@@ -607,6 +617,10 @@
                     signin.style.display="none";
                     let signout = document.getElementById("signout");
                     signout.style.display="block";
+                    if(page == "book")
+                    {
+                        self.location="/booking";
+                    }
                 }
                 else
                 {
@@ -614,13 +628,15 @@
                     signin.style.display="block";
                     let signout = document.getElementById("signout");
                     signout.style.display="none";
+                    if(page == "book")
+                    {
+                        clicksignin();
+                    }
                 }
 
             }
-            req.send();
+        
         }
-
-    
 
         //關鍵字查詢
         function clickpic()
@@ -721,8 +737,6 @@
                 
             }
         
-        
-
         // 偵測滾輪事件
         window.addEventListener("scroll", ()=> {
             const { scrollHeight, clientHeight } = document.documentElement;
@@ -763,7 +777,7 @@
         }
      
 
-        //登入註冊
+        //點選 [還沒有帳戶？點此註冊]
         function signup(){
             let msg = document.getElementById("errmsg");
             msg.style.display = "none";
@@ -811,7 +825,7 @@
             }
         }
 
-        //BTN signup
+        //BTN sign_up
         function btn_signup(){
             let req = new XMLHttpRequest();
             let name = document.getElementById("sign_name").value;
@@ -862,7 +876,7 @@
         }
 
 
-        //BTN signin
+        //BTN sign_in
         function btn_signin(){
             let email = document.getElementById("id_email").value;
             let pwd = document.getElementById("id_pwd").value;
@@ -895,7 +909,7 @@
           
         }
 
-        //click logout
+        //click log_out
         function clicksignout()
         {
             let req = new XMLHttpRequest();
@@ -911,7 +925,11 @@
                 req.send();
         }
 
-       
+        //到預定行程
+        function gobooking(){
+            let book="book";
+            checkuser(book);
+        }
 
 
         </script>
@@ -922,7 +940,7 @@
                 <div class="new">
                     <div class="logo">台北一日遊</div>
                     <div class="menutype">
-                        <div class="menu">預定行程</div> &nbsp;&nbsp;
+                        <div class="menu"  onclick="gobooking()">預定行程</div> &nbsp;&nbsp;
                         <div id="signin" class="menu" onclick="clicksignin()">登入/註冊</div> &nbsp;
                         <div id="signout"  class="menuout" onclick="clicksignout()">登出系統</div> 
                     </div>
@@ -997,13 +1015,11 @@
                     </div>
                     <input type="text" id="sign_name" placeholder="輸入姓名"><br><br>
                     <input type="text" id="sign_email" placeholder="輸入電子信箱"><br><br>
-                    <input type="text" id="sign_pwd" placeholder="輸入密碼"><br><br>
+                    <input type="password" id="sign_pwd" placeholder="輸入密碼"><br><br>
                     <button onclick="btn_signup()">註冊新帳戶</button><br>
                     <label id="errmsg" class="error_msg"></label>
                     <p id="nosignup" onclick="haveAccount()">已經有帳戶了？點此登入</p>
                 </div>
-
-
             </div>
 
         </body>
