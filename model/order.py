@@ -3,6 +3,7 @@ from mysql.connector import errorcode
 from flask import *
 from datetime import datetime
 import json
+from model.booking import deletebook
 
 mydb= mysql.connector.connect(
   host="localhost",
@@ -57,19 +58,19 @@ def neworder(orderdata):
 
         response = requests.post(url_pay, data = data_pay, headers = header_pay, timeout = 30)
         pay_response=response.json()
-        print(pay_response,"-----------------------------------------------------------")
         if pay_response["status"] == 0:
             paystatus = "0" #付款成功
             with mydb.cursor() as cursor:
                 sql="UPDATE orders SET paystatus='"+paystatus+"',bank_transaction_id='"+pay_response["bank_transaction_id"]+"' WHERE number='"+number+"'"
                 cursor.execute(sql)
-                mydb.commit()
                 if cursor.rowcount == 1 :
                     data = {"data":{"number":number,"payment":{"status":0,"message":"付款成功"}}}
                     #付款成功-刪除預定資料
-                    sql_delete="DELETE FROM booking WHERE email='"+mail+"'"
-                    cursor.execute(sql_delete)
-                    mydb.commit()
+                   # sql_delete="DELETE FROM booking WHERE email='"+mail+"'"
+                   # cursor.execute(sql_delete)
+                   # mydb.commit()
+                  #  cursor.close()
+                    deletebook(mail)
                     return jsonify(data)
                 else:
                     return jsonify({"error":True,"message":"訂單建立失敗喔"})   

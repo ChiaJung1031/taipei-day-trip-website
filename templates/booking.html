@@ -397,12 +397,13 @@
 
         window.onload=function()
         {
-            let index="index";
-            checkuser(index);
+           // let index="index";
+           // checkuser(index);
+              checkuser();
         }	
 
-           //確認登入狀態
-        function checkuser(page){
+           //確認登入狀態 function checkuser(page)
+        function checkuser(){
              //check user verified
             let req = new XMLHttpRequest();
             req.open("GET","/api/user")
@@ -420,10 +421,6 @@
                     let welcome = document.getElementById("welcome");
                     welcome.innerHTML="您好，"+data["data"]["name"]+"，待預定的行程如下：";
                     bookinginfo();
-                    if(page == "book")
-                    {
-                        bookinginfo();
-                    }
                 }
                 else
                 {
@@ -431,10 +428,10 @@
                     signin.style.display="block";
                     let signout = document.getElementById("signout");
                     signout.style.display="none";
-                    if(page == "book")
-                    {
-                        clicksignin();
-                    }
+                  //  if(page == "book")
+                   // {
+                     //   clicksignin();
+                   // }
                     
                     let nobooking=document.getElementById("nobooking");
                     let isbooking=document.getElementById("isbooking");
@@ -690,10 +687,10 @@
         }
         
         //到預定行程
-        function gobooking(){
-            let book="book";
-            checkuser(book);
-        }
+     //   function gobooking(){
+       //     let book="book";
+      //      checkuser(book);
+      //  }
 
         //刪除預定行程
         function deletebook()

@@ -55,7 +55,6 @@ def getbook(mail,name):
                 cursor.execute(sql_book)
                 result=cursor.fetchall()
                 if len(result) !=0:
-                    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",result)
                     for i in result:
                         attractId=str(i[0])
                         date=i[1]
