@@ -245,6 +245,13 @@
         color: #666666;
         margin-right: 25px;
     }
+    .tpfield {
+        height: 40px;
+        width: 300px;
+        border: 1px solid gray;
+        margin: 5px 0;
+        padding: 5px;
+    }
 	
     @media screen and  (min-width:1001px) and (max-width:1200px){
      
@@ -385,16 +392,18 @@
         <meta charest="utf-8" name="viewport" content="width=device-width, initial-scale=1, user-scalable=1.0"/>
         <title>台北一日遊</title>
         
+        <script src="https://js.tappaysdk.com/tpdirect/v5.7.0"></script>
         <script type="text/javascript">
 
         window.onload=function()
         {
-            let index="index";
-            checkuser(index);
+           // let index="index";
+           // checkuser(index);
+              checkuser();
         }	
 
-           //確認登入狀態
-           function checkuser(page){
+           //確認登入狀態 function checkuser(page)
+        function checkuser(){
              //check user verified
             let req = new XMLHttpRequest();
             req.open("GET","/api/user")
@@ -412,10 +421,6 @@
                     let welcome = document.getElementById("welcome");
                     welcome.innerHTML="您好，"+data["data"]["name"]+"，待預定的行程如下：";
                     bookinginfo();
-                    if(page == "book")
-                    {
-                        bookinginfo();
-                    }
                 }
                 else
                 {
@@ -423,10 +428,10 @@
                     signin.style.display="block";
                     let signout = document.getElementById("signout");
                     signout.style.display="none";
-                    if(page == "book")
-                    {
-                        clicksignin();
-                    }
+                  //  if(page == "book")
+                   // {
+                     //   clicksignin();
+                   // }
                     
                     let nobooking=document.getElementById("nobooking");
                     let isbooking=document.getElementById("isbooking");
@@ -446,6 +451,15 @@
 		}
         
 
+        let p_image;
+        let p_name;
+        let p_time;
+        let p_price;
+        let p_address;
+        let p_id;
+        let p_date;
+
+        //預定的資訊
         function bookinginfo(){
             let request = new XMLHttpRequest();
             request.open("GET","/api/booking")
@@ -454,34 +468,39 @@
                 let data = JSON.parse(this.response);
                 console.log(data["data"])
                 if(data["data"] != null)
-                {
+                {   
+                    p_id = data["data"]["attraction"]["id"];
                     let pic = document.getElementById("picture");
                     pic.setAttribute("src",data["data"]["attraction"]["image"]);//插入圖片
+                    p_image=data["data"]["attraction"]["image"];
                     let subtitle = document.getElementById("subtitle");
                     subtitle.innerHTML="台北一日遊："+data["data"]["attraction"]["name"];
+                    p_name=data["data"]["attraction"]["name"];
                     let date = document.getElementById("date");
                     date.innerHTML= data["data"]["date"];
+                    p_date=data["data"]["date"];
                     let time = document.getElementById("time");
                     if(data["data"]["time"] == "morning")
                     {
-                        time.innerHTML= "上午";
+                        p_time= data["data"]["time"];
+                        time.innerHTML= "早上 9 點到下午 4 點";
                     }
                     else
                     {
-                        time.innerHTML= "下午";
+                        p_time= data["data"]["time"];
+                        time.innerHTML= "下午 2 點到晚上 9 點";
                     }
                     let price = document.getElementById("price");
                     price.innerHTML= "新台幣"+ data["data"]["price"]+"元";
+                    p_price =data["data"]["price"];
                     let address = document.getElementById("address");
                     address.innerHTML=data["data"]["attraction"]["address"];
+                    p_address=data["data"]["attraction"]["address"];
                     let totalprice = document.getElementById("totalprice");
                     totalprice.innerHTML="總價：新台幣"+data["data"]["price"]+"元";
                 }
                 else
                 {
-                   // let error = response["message"];
-                   // alert(error);
-                              
                     let nobooking=document.getElementById("nobooking");
                     let isbooking=document.getElementById("isbooking");
                     let footer=document.getElementById("footer");
@@ -521,7 +540,6 @@
             }
         }
      
-
         //登入註冊
         function signup(){
             let msg = document.getElementById("errmsg");
@@ -589,7 +607,6 @@
                     let msg = document.getElementById("errmsg");
                     msg.style.display = "none";
                     req.open("POST","/api/user?email="+email+"&name="+name+"&password="+pwd)
-                    console.log("/api/user?email="+email+"&name="+name+"&password="+pwd)
                     req.setRequestHeader('Content-type', 'application/json');
                     req.onload = function () 
                     {
@@ -619,7 +636,6 @@
                
             }
         }
-
 
         //BTN signin
         function btn_signin(){
@@ -671,10 +687,10 @@
         }
         
         //到預定行程
-        function gobooking(){
-            let book="book";
-            checkuser(book);
-        }
+     //   function gobooking(){
+       //     let book="book";
+      //      checkuser(book);
+      //  }
 
         //刪除預定行程
         function deletebook()
@@ -698,6 +714,23 @@
 
         }
 
+
+
+        //信用卡號輸入自動空格
+        function keyup(obj){
+            var v = obj.value;
+            console.info(v);
+            v =v.replace(/(\s)/g,'').replace(/(\d{4})/g,'$1 ').replace(/\s*$/,'')
+            obj.value =v;
+            }
+
+
+        
+        //金流串接
+
+        //TPDirect.setupSDK 設定參數
+        TPDirect.setupSDK(20410, 'app_6kKSn4u2u1s6pgS7hXRxMaLLhygWHuSSazLpsGAlPM5GX9mlKCEjTapkC4H6', 'sandbox')
+        
         </script>
 
 
@@ -735,33 +768,43 @@
                 </div>
                 
                 <hr id="hr" size="1px" style="margin-top:40px">
-                
-                <div class="title">您的聯絡資料</div>
-                <div class="info">
-                    <div class="contentline inputbox"><p class="subtitle">聯絡姓名：</p><input type="text" id="username"></div>
-                    <div class="contentline inputbox"><p class="subtitle">聯絡信箱：</p><input type="text" id="usermail"></div>
-                    <div class="contentline inputbox"><p class="subtitle">手機號碼：</p><input type="text" id="phone"></div>
-                    <div class="subtitle">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
-    
-                </div>
+                    <form> 
+                        <div class="title">您的聯絡資料</div>
+                        <div class="info">
+                            <div class="contentline inputbox"><p class="subtitle">聯絡姓名：</p><input type="text" id="username"></div>
+                            <div class="contentline inputbox"><p class="subtitle">聯絡信箱：</p><input type="text" id="usermail"></div>
+                            <div class="contentline inputbox"><p class="subtitle">手機號碼：</p><input type="text" id="phone"></div>
+                            <div class="subtitle">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
             
-                
-                <hr id="hr" size="1px" style="margin-top:40px">
-                
-                 <div class="title">信用卡付款資訊</div>
-                <div class="info">
-                    <div class="contentline inputbox"><p class="subtitle">卡片號碼：</p><input type="text" placeholder="**** **** **** ****"></div>
-                    <div class="contentline inputbox"><p class="subtitle">過期時間：</p><input type="text" placeholder="MM / YY"></div>
-                    <div class="contentline inputbox"><p class="subtitle">驗證密碼：</p><input type="text" placeholder="CVV"></div>
-                </div>
-                
-                <hr id="hr" size="1px" style="margin-top:40px">
-                
-                <div class="booking">
-                    <div><p id="totalprice"></p></div>
-                    <button type="button">確認訂購並付款</button>
-                </div>
-          </div>
+                        </div>
+                    
+                        
+                        <hr id="hr" size="1px" style="margin-top:40px">
+                      
+                        <div class="title">信用卡付款資訊</div>
+                        <div class="info">
+                            <div class="contentline inputbox">
+                                <p class="subtitle">卡片號碼：</p>
+                                <div class="tpfield" id="card-number"></div>
+                            </div>
+                            <div class="contentline inputbox">
+                                <p class="subtitle">過期時間：</p>
+                                <div class="tpfield" id="card-expiration-date"></div>
+                            </div>
+                            <div class="contentline inputbox">
+                                <p class="subtitle">驗證密碼：</p>
+                                <div class="tpfield" id="card-ccv"></div>
+                            </div>
+                        </div>
+                        
+                        <hr id="hr" size="1px" style="margin-top:40px">
+                        
+                        <div class="booking">
+                            <div><p id="totalprice"></p></div>
+                            <button type="submit" id="btn_submit" onclick="buyandpay()">確認訂購並付款</button>
+                        </div>
+                    </form>
+            </div>
                 <div id="footer" class="footer">COPYRIGHT © 2021 台北一日遊</div>
     
                       <!-- The Modal -->
@@ -794,8 +837,139 @@
                         </div>
                     </div>
            
-			
+			<script>
+                  // 以下提供必填 CCV 以及選填 CCV 的 Example
+        // 必填 CCV Example
+        let fields = {
+            number: {
+                // css selector
+                element: '#card-number',
+                placeholder: '**** **** **** ****'
+            },
+            expirationDate: {
+                // DOM object
+                element: document.getElementById('card-expiration-date'),
+                placeholder: 'MM / YY'
+            },
+            ccv: {
+                element: '#card-ccv',
+                placeholder: 'CCV'
+            }
+        }
+        
+        TPDirect.card.setup({
+                fields: fields,
+                styles: {
+                    'input': {
+                        'color': 'gray'
+                    },
+                    'input.ccv': {
+                        'font-size': '16px'
+                    },
+                    'input.expiration-date': {
+                         'font-size': '16px'
+                    },
+                    'input.card-number': {
+                         'font-size': '16px'
+                    },
+                    ':focus': {
+                         'color': 'black'
+                    },
+                    '.valid': {
+                        'color': 'green'
+                    },
+                    '.invalid': {
+                        'color': 'red'
+                    },
+                    '@media screen and (max-width: 400px)': {
+                        'input': {
+                            'color': 'orange'
+                        }
+                    }
+                }
+            })
+                
+               //實作 TPDirect.card.onUpdate，得知目前卡片資訊的輸入狀態
+               TPDirect.card.onUpdate(function (update)
+                {
+                    var submitButton = document.querySelector('#btn_submit')
 
+                    if (update.canGetPrime) {
+                        submitButton.removeAttribute('disabled')
+                    } else {
+                        submitButton.setAttribute('disabled', true)
+                    }
+
+                   // var message = document.querySelector('#message')
+                   if (update.hasError) {
+                      // console.log(message);
+                    } else {
+                     //   message.classList.remove('error')
+                      //  message.classList.add('info')
+                    }
+                })
+
+                   //點選訂購並付款
+                   document.querySelector('#btn_submit').addEventListener('click', function(event) 
+                {
+                    event.preventDefault();
+                    TPDirect.card.getPrime(function(result) 
+                    {
+                        console.log(JSON.stringify(result, null, 4))
+                        if(result.status != 0)
+                        {
+                            alert("刷卡有錯")
+                            return;
+                        }
+                        let card_prime = result.card.prime;
+                        let req = new XMLHttpRequest();
+			            req.open("POST","/api/orders")
+                        req.setRequestHeader('Content-type', 'application/json');
+                        let username=document.getElementById("username").value;
+                        let usermail=document.getElementById("usermail").value;
+                        let phone=document.getElementById("phone").value;
+		                let orders={
+                                    prime: card_prime,
+                                    order: {
+                                            price: p_price,
+                                            trip: {
+                                            attraction: {
+                                            id: p_id,
+                                            name: p_name,
+                                            address: p_address,
+                                            image: p_image
+                                            },
+                                            date: p_date,
+                                            time: p_time
+                                            },
+                                            contact: {
+                                            name: username,
+                                            email: usermail,
+                                            phone: phone
+                                            }
+                                        }
+                                    }
+                                    let data = JSON.stringify(orders);
+                                    req.send(data);
+                                   req.onload=function()
+                                    {
+                                        let back = JSON.parse(this.response);
+                                        if(Object.keys(back)[0] != "error")
+                                        {
+                                            num=back["data"]["number"]
+                                            alert("付款成功！")
+                                            self.location="/thankyou?number="+num;
+                                        }
+                                        else
+                                        {
+                                            alert("付款失敗！請聯絡管理人員")
+                                        }
+                                    }
+                          
+                    })
+                })
+
+            </script>
 
         
         </body>
