@@ -906,7 +906,37 @@
                 }
                 req.send();
              }
-          
+        }
+
+        function myFunction(){
+            let email = document.getElementById("id_email").value;
+            let pwd = document.getElementById("id_pwd").value;
+            if(email == "" || pwd =="")
+            {
+                let msg = document.getElementById("errmsg_login");
+                msg.style.display = "block";
+                msg.innerHTML="空格為必填"
+            }
+            else
+            {
+                let req = new XMLHttpRequest();
+                req.open("PATCH","/api/user?email="+email+"&password="+pwd)
+                req.onload = function () 
+                {
+                    let data = JSON.parse(this.response);
+                    if(Object.keys(data)[0] == "error")
+                    {
+                        let msg = document.getElementById("errmsg_login");
+                        msg.style.display = "block";
+                        msg.innerHTML=data["message"];
+                    }
+                    else
+                    {
+                        location.reload();
+                    }
+                }
+                req.send();
+             }
         }
 
         //click log_out
@@ -930,6 +960,8 @@
             let book="book";
             checkuser(book);
         }
+
+  
 
 
         </script>
@@ -969,7 +1001,7 @@
 
                         <div class="house">
                             <img src="/welcome.png">
-                    </div>
+                        </div>
                     </div>
 
             </div>
@@ -1003,7 +1035,7 @@
                     </div>
                     <input type="text" id="id_email" placeholder="輸入電子信箱"><br><br>
                     <input type="password"  id="id_pwd" placeholder="輸入密碼"><br><br>
-                    <button onclick="btn_signin()">登入帳戶</button><br>
+                    <button onclick="btn_signin()"  onkeypress="myFunction()">登入帳戶</button><br>
                     <label id="errmsg_login" class="error_msg"></label>
                     <p id="nosignin" onclick="signup()">還沒有帳戶？點此註冊</p>
                 </div>

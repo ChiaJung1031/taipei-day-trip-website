@@ -428,10 +428,6 @@
                     signin.style.display="block";
                     let signout = document.getElementById("signout");
                     signout.style.display="none";
-                  //  if(page == "book")
-                   // {
-                     //   clicksignin();
-                   // }
                     
                     let nobooking=document.getElementById("nobooking");
                     let isbooking=document.getElementById("isbooking");
@@ -686,12 +682,6 @@
                 req.send();
         }
         
-        //到預定行程
-     //   function gobooking(){
-       //     let book="book";
-      //      checkuser(book);
-      //  }
-
         //刪除預定行程
         function deletebook()
         {
@@ -773,7 +763,7 @@
                         <div class="info">
                             <div class="contentline inputbox"><p class="subtitle">聯絡姓名：</p><input type="text" id="username"></div>
                             <div class="contentline inputbox"><p class="subtitle">聯絡信箱：</p><input type="text" id="usermail"></div>
-                            <div class="contentline inputbox"><p class="subtitle">手機號碼：</p><input type="text" id="phone"></div>
+                            <div class="contentline inputbox"><p class="subtitle">手機號碼：</p><input type="text" id="phone" onkeyup="if(event.keyCode !=37 && event.keyCode != 39)value=value.replace(/\D/g,'')"></div>
                             <div class="subtitle">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
             
                         </div>
@@ -900,18 +890,17 @@
                         submitButton.setAttribute('disabled', true)
                     }
 
-                   // var message = document.querySelector('#message')
-                   if (update.hasError) {
-                      // console.log(message);
-                    } else {
-                     //   message.classList.remove('error')
-                      //  message.classList.add('info')
-                    }
                 })
 
                    //點選訂購並付款
-                   document.querySelector('#btn_submit').addEventListener('click', function(event) 
+                document.querySelector('#btn_submit').addEventListener('click', function(event) 
                 {
+                    let u_email = document.getElementById("usermail").value;
+                    if(!u_email.includes("@"))
+                    {
+                        alert("信箱格式有誤")
+                        return;
+                    }
                     event.preventDefault();
                     TPDirect.card.getPrime(function(result) 
                     {
@@ -965,7 +954,6 @@
                                             alert("付款失敗！請聯絡管理人員")
                                         }
                                     }
-                          
                     })
                 })
 

@@ -1,34 +1,22 @@
 from flask import *
-import mysql.connector
-from mysql.connector import errorcode
+from sql_database import select_att_id,select_count,select_attraction
 
-mydb= mysql.connector.connect(
-  host="localhost",
-  user="root",
-  password="12345",
-  database="website"
-)
 
 def getdata(page,keyword):
 	x=int(page)*12
 	limitnum= str(x)
 	if keyword == None or keyword == "" and page != "":	
-		with mydb.cursor() as cursor:
-			sqlcount="SELECT count(*) FROM travel"
-			cursor.execute(sqlcount)
-			resultCount = cursor.fetchall()
-			for a in resultCount:
-				allcount = a[0]  # 資料總數
+			count_data = select_count(kw="nokeyword")
+			for a in count_data:
+				allcount = a  # 資料總數
 			num=allcount%12  #餘數
 			newnum=int(allcount/12)  #整數
-			sql="SELECT id,stitle,CAT2,xbody,address,info,MRT,latitude,longitude,file FROM website.travel LIMIT "+limitnum+",12 "
-			cursor.execute(sql)
-			myresult = cursor.fetchall() 
+			select_att_data = select_attraction(limitnum)
 			travellist=[]
-			count=len(myresult)
+			count=len(select_att_data)
 			if count != 0:
 							for i in range(0,count):
-								data=myresult[i]
+								data=select_att_data[i]
 								newimg=""
 								img=data[9].split('http')
 								for j in img[1:len(img)]:
@@ -67,22 +55,25 @@ def getdata(page,keyword):
 				return jsonify(msg)
 
 	elif keyword != None or keyword != "" and page != "":
-		with mydb.cursor() as cursor:
-			sqlcount="SELECT count(*) FROM travel WHERE stitle LIKE '%"+keyword+"%' "
-			cursor.execute(sqlcount)
-			resultCount = cursor.fetchall()
-			for a in resultCount:
-				allcount = a[0]  # 資料總數
+			count_data = select_count(kw=keyword)
+		#with mydb.cursor() as cursor:
+			#sqlcount="SELECT count(*) FROM travel WHERE stitle LIKE '%"+keyword+"%' "
+			#cursor.execute(sqlcount)
+			#resultCount = cursor.fetchall()
+			for a in count_data:
+				allcount = a  # 資料總數
 			num=allcount%12  #餘數
 			newnum=int(allcount/12)  #整數
-			sql="SELECT id,stitle,CAT2,xbody,address,info,MRT,latitude,longitude,file FROM travel WHERE stitle LIKE '%"+keyword+"%' LIMIT "+limitnum+",12  "
-			cursor.execute(sql)
-			myresult = cursor.fetchall()  
+			
+			select_att_data = select_attraction(keyword,limitnum)
+			#sql="SELECT id,stitle,CAT2,xbody,address,info,MRT,latitude,longitude,file FROM travel WHERE stitle LIKE '%"+keyword+"%' LIMIT "+limitnum+",12  "
+			#cursor.execute(sql)
+			#myresult = cursor.fetchall()  
 			travellist=[]
-			count=len(myresult)
+			count=len(select_att_data)
 			if count != 0:
 							for i in range(0,count):
-								data=myresult[i]
+								data=select_att_data[i]
 								newimg=""
 								img=data[9].split('http')
 								for j in img[1:len(img)]:
@@ -124,36 +115,37 @@ def getdata(page,keyword):
 
 
 def getattractid(id):
-    with mydb.cursor() as cursor:
+    #with mydb.cursor() as cursor:
         if id.isdigit():
-            sql="SELECT id,stitle,CAT2,xbody,address,info,MRT,latitude,longitude,file FROM travel WHERE id= "+id+""
-            cursor.execute(sql)
-            myresult = cursor.fetchall()
+            select_data = select_att_id(id)
+            #sql="SELECT id,stitle,CAT2,xbody,address,info,MRT,latitude,longitude,file FROM travel WHERE id= "+id+""
+            #cursor.execute(sql)
+           # myresult = cursor.fetchall()
             travellist=[]
-            if len(myresult) == 0:
+            if select_data == None:
                 msg = {"error": True, "message": "景點編號不正確"}
                 return jsonify(msg)
             else:
-                for row in myresult:
+                for row in select_data:
                     newimg=""
-                    img=row[9].split('http')
+                    img=select_data["file"].split('http')
                     for j in img[1:len(img)]:
                         newimg += "http"+j+","	
-                        newimgQ=newimg[:-1]		
-                        newitem={}
-                        newitem['id'] = int(row[0])
-                        newitem['name'] = row[1]	
-                        newitem['category'] = row[2]
-                        newitem['description'] = row[3]
-                        newitem['address'] = row[4] 
-                        newitem['transport'] = row[5]
-                        newitem['mrt'] = row[6]
-                        newitem['latitude'] = row[7]
-                        newitem['longtitude'] = row[8]
-                        newitem['images'] = [newimgQ]
-                        travellist.append(newitem)
-                        All={'data':travellist}  
-                        return jsonify(All)
+                    newimgQ=newimg[:-1]	
+                    newitem={}
+                    newitem['id'] = select_data["id"]
+                    newitem['name'] = select_data["stitle"]	
+                    newitem['category'] = select_data["CAT2"]
+                    newitem['description'] = select_data["xbody"]
+                    newitem['address'] = select_data["address"] 
+                    newitem['transport'] = select_data["info"]
+                    newitem['mrt'] = select_data["MRT"]
+                    newitem['latitude'] = select_data["latitude"]
+                    newitem['longtitude'] = select_data["longitude"]
+                    newitem['images'] = newimgQ
+                    travellist.append(newitem)
+                    All={'data':travellist}  
+                    return jsonify(All)
         else:
             msg = {"error": True, "message": "編號輸入錯誤"}
             return jsonify(msg)

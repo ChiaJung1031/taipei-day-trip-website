@@ -1,30 +1,28 @@
 import mysql.connector
 from mysql.connector import errorcode
 from flask import *
+from sql_database import select_user,insert_user
 
-mydb= mysql.connector.connect(
-  host="localhost",
-  user="root",
-  password="12345",
-  database="website"
-)
 
 def signup(password,email,username):
-	with mydb.cursor() as cursor:
+	#with mydb.cursor() as cursor:
 		if email !="" and username !="" and password !="":
-				sql="SELECT email FROM user WHERE email= '"+email+"'"
-				cursor.execute(sql)
-				result = cursor.fetchall()
-				if len(result) == 1:
+				select_data = select_user(user_email=email)		
+				#sql="SELECT email,name,id FROM user WHERE email= '"+email+"'"
+				#cursor.execute(sql)
+				#result = cursor.fetchone()
+				#orderData = dict(zip(cursor.column_names, result))
+				if select_data == "sameEmail":
 					data = {"error":True,"message":"註冊失敗，請確認Email是否重複"}
 					return jsonify(data)
 				else:
-					sql = "INSERT INTO user (name,email,password) VALUES (%s,%s,%s)"
-					value = (username,email,password)
-					cursor.execute(sql,value)
-					mydb.commit()
-					print(cursor.rowcount, "record(s) affected")
-					if cursor.rowcount == 1 :
+					insert_data = insert_user(email=email,name=username,psw=password)
+					#sql = "INSERT INTO user (name,email,password) VALUES (%s,%s,%s)"
+					#value = (username,email,password)
+					#cursor.execute(sql,value)
+					#mydb.commit()
+					#print(cursor.rowcount, "record(s) affected")
+					if insert_data == "insertDone" :
 						data = {"ok":True}
 						return jsonify(data)
 					else:
@@ -33,17 +31,18 @@ def signup(password,email,username):
 
 
 def signin(password,email):
-	with mydb.cursor() as cursor:
+	#with mydb.cursor() as cursor:
 		if password !="" and email !="":
-				sql = "SELECT id,email,name FROM user WHERE email=%s AND password=%s"
-				value = (email,password)
-				cursor.execute(sql,value)
-				myresult = cursor.fetchall()
-				if len(myresult) == 1 :
-					for i in myresult:
-						session["id"]=i[0]
-						session["email"]=i[1]
-						session["name"]=i[2]
+				select_data = select_user(user_email=email,psw=password)	
+				#sql = "SELECT id,email,name FROM user WHERE email=%s AND password=%s"
+				#value = (email,password)
+				#cursor.execute(sql,value)
+				#myresult = cursor.fetchall()
+				if select_data != None:
+					for i in select_data:
+						session["id"]=select_data["id"]
+						session["email"]=select_data["email"]
+						session["name"]=select_data["name"]
 						data = {"ok":True}
 						return jsonify(data)
 				else:
