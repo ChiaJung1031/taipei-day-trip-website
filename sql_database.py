@@ -5,7 +5,6 @@ import os
 
 load_dotenv()
 
-
 try:
    conn_pool = pooling.MySQLConnectionPool(
       pool_name = "my_pool",
