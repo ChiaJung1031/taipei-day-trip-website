@@ -1,5 +1,4 @@
 from flask import *
-
 from datetime import timedelta
 from routes.user import user_api
 from routes.attraction import attraction_api
