@@ -397,12 +397,26 @@
 
         window.onload=function()
         {
-           // let index="index";
-           // checkuser(index);
+             time();
+
               checkuser();
+           
         }	
 
-           //確認登入狀態 function checkuser(page)
+
+        function time(){
+            setInterval(function()
+            {
+                let processModel = document.getElementById("processModel");
+                processModel.style.display = "block"
+            }, 3000);
+        }
+
+
+
+
+
+        //確認登入狀態 function checkuser(page)
         function checkuser(){
              //check user verified
             let req = new XMLHttpRequest();
@@ -797,8 +811,13 @@
             </div>
                 <div id="footer" class="footer">COPYRIGHT © 2021 台北一日遊</div>
     
+                <div id="processModel" class="modal">
+                    <label style="color: #FFFFFF;"> 處理中 </label>
+
+                </div>
+
                       <!-- The Modal -->
-                      <div id="myModal" class="modal">
+                    <div id="myModal" class="modal">
     
                         <!-- Modal signin content -->
                         <div id="signin_content" class="signin_content">

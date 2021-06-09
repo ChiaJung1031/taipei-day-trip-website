@@ -1,6 +1,5 @@
 from flask import *
-import mysql.connector
-from mysql.connector import errorcode
+
 from datetime import timedelta
 from routes.user import user_api
 from routes.attraction import attraction_api
