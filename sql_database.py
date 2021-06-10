@@ -81,7 +81,9 @@ def select_att_id(idnum):
       myResult = newCursor.fetchone()
       if myResult != None:
          data = dict(zip(newCursor.column_names,myResult))
+         print("~!~~~~~~~~~~~~~~~~~~~~",data)
          return data 
+  
       else:
          return None
    except Exception as e:

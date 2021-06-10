@@ -574,7 +574,8 @@
 
             //產內容
             let req = new XMLHttpRequest();
-            req.open("GET","/api/"+location.pathname)
+            console.log(location.pathname)
+            req.open("GET","/api"+location.pathname)
             req.setRequestHeader('Content-type', 'application/json');
             req.onload = function () 
             {
