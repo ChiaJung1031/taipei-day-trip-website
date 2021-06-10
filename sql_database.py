@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-conn_pool=""
+
 try:
    conn_pool = pooling.MySQLConnectionPool(
       pool_name = "my_pool",
