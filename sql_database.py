@@ -5,8 +5,7 @@ import os
 
 load_dotenv()
 
-try:
-   conn_pool = pooling.MySQLConnectionPool(
+conn_pool = pooling.MySQLConnectionPool(
       pool_name = "my_pool",
       pool_size = 5,
       pool_reset_session = True,
@@ -16,8 +15,7 @@ try:
       database=os.getenv("DBDATABASE"),
       charset = "utf8"
       )
-except Exception as e:
-   print(e)  
+ 
 
 
 def closePool(my_connection,my_cursor):
