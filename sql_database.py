@@ -5,12 +5,8 @@ import os
 
 load_dotenv()
 
-<<<<<<< HEAD
 try:
    conn_pool = pooling.MySQLConnectionPool(
-=======
-conn_pool = pooling.MySQLConnectionPool(
->>>>>>> 14a554bae84cd693043d2996ae5236ddc6eca211
       pool_name = "my_pool",
       pool_size = 5,
       pool_reset_session = True,
