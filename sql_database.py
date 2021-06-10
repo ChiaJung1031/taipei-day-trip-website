@@ -13,7 +13,8 @@ try:
       host=os.getenv("DBHOST"),
       user=os.getenv("DBUSER"),
       password=os.getenv("DBPASSWORD"),
-      database=os.getenv("DBDATABASE")
+      database=os.getenv("DBDATABASE"),
+      charset = "utf8"
       )
 except Exception as e:
    print(e)  
