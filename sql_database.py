@@ -16,7 +16,8 @@ try:
       database=os.getenv("DBDATABASE"),
       charset = "utf8"
       )
- 
+except Exception as e:
+   print(e)
 
 
 def closePool(my_connection,my_cursor):
