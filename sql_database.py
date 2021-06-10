@@ -20,8 +20,8 @@ try:
 
 
 def closePool(my_connection,my_cursor):
-    my_connection.close()
-    my_cursor.close()
+   my_connection.close()
+   my_cursor.close()
 
 
 ### User ###
