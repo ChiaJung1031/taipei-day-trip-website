@@ -897,69 +897,85 @@
 
                 })
 
+
+
+                
                    //點選訂購並付款
                 document.querySelector('#btn_submit').addEventListener('click', function(event) 
-                {
-                    let u_email = document.getElementById("usermail").value;
-                    if(!u_email.includes("@"))
-                    {
-                        alert("信箱格式有誤")
-                        return;
+                {   
+                    let uname=document.getElementById("username").value;
+                    let umail=document.getElementById("usermail").value;
+                    let uphone=document.getElementById("phone").value;
+                    let number = document.getElementById("card-number").value;
+                    let expiration_date=document.getElementById("card-expiration-date").value;
+                    let ccv = document.getElementById("card-ccv").value;
+                    if(uname=="" || umail=="" || uphone=="" || number=="" || expiration_date=="" || ccv==""){
+                        alert("空格皆為必填")
                     }
-                    event.preventDefault();
-                    TPDirect.card.getPrime(function(result) 
+                    else
                     {
-                        console.log(JSON.stringify(result, null, 4))
-                        if(result.status != 0)
+                        if(!u_email.includes("@"))
                         {
-                            alert("刷卡有錯")
+                            alert("信箱格式有誤")
                             return;
                         }
-                        let card_prime = result.card.prime;
-                        let req = new XMLHttpRequest();
-			            req.open("POST","/api/orders")
-                        req.setRequestHeader('Content-type', 'application/json');
-                        let username=document.getElementById("username").value;
-                        let usermail=document.getElementById("usermail").value;
-                        let phone=document.getElementById("phone").value;
-		                let orders={
-                                    prime: card_prime,
-                                    order: {
-                                            price: p_price,
-                                            trip: {
-                                            attraction: {
-                                            id: p_id,
-                                            name: p_name,
-                                            address: p_address,
-                                            image: p_image
-                                            },
-                                            date: p_date,
-                                            time: p_time
-                                            },
-                                            contact: {
-                                            name: username,
-                                            email: usermail,
-                                            phone: phone
+                        event.preventDefault();
+                        TPDirect.card.getPrime(function(result) 
+                        {
+                            console.log(JSON.stringify(result, null, 4))
+                            if(result.status != 0)
+                            {
+                                alert("刷卡有錯")
+                                return;
+                            }
+                            let card_prime = result.card.prime;
+                            let req = new XMLHttpRequest();
+                            req.open("POST","/api/orders")
+                            req.setRequestHeader('Content-type', 'application/json');
+                            let username=document.getElementById("username").value;
+                            let usermail=document.getElementById("usermail").value;
+                            let phone=document.getElementById("phone").value;
+                            let orders={
+                                        prime: card_prime,
+                                        order: {
+                                                price: p_price,
+                                                trip: {
+                                                attraction: {
+                                                id: p_id,
+                                                name: p_name,
+                                                address: p_address,
+                                                image: p_image
+                                                },
+                                                date: p_date,
+                                                time: p_time
+                                                },
+                                                contact: {
+                                                name: username,
+                                                email: usermail,
+                                                phone: phone
+                                                }
                                             }
                                         }
-                                    }
-                                    let data = JSON.stringify(orders);
-                                    req.send(data);
-                                   req.onload=function()
-                                    {
-                                        let back = JSON.parse(this.response);
-                                        if(Object.keys(back)[0] != "error")
+                                        let data = JSON.stringify(orders);
+                                        req.send(data);
+                                    req.onload=function()
                                         {
-                                            num=back["data"]["number"]
-                                            alert("付款成功！")
-                                            self.location="/thankyou?number="+num;
+                                            let back = JSON.parse(this.response);
+                                            if(Object.keys(back)[0] != "error")
+                                            {
+                                                num=back["data"]["number"]
+                                                alert("付款成功！")
+                                                self.location="/thankyou?number="+num;
+                                            }
+                                            else
+                                            {
+                                                alert("付款失敗！請聯絡管理人員")
+                                            }
                                         }
-                                        else
-                                        {
-                                            alert("付款失敗！請聯絡管理人員")
-                                        }
-                                    }
-                    })
+                        })
+                    }
+
+                 
                 })
 
             </script>
