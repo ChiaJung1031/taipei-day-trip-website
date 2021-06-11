@@ -574,11 +574,13 @@
 
             //產內容
             let req = new XMLHttpRequest();
-            req.open("GET","/api/"+location.pathname)
+            console.log(location.pathname)
+            req.open("GET","/api"+location.pathname)
             req.setRequestHeader('Content-type', 'application/json');
             req.onload = function () 
             {
-                 let back = JSON.parse(this.response);
+                let back = JSON.parse(this.response);
+                 console.log(back["data"][0])
                  let name = back["data"][0]["name"];
                  let category = back["data"][0]["category"];
                  let MRT = back["data"][0]["mrt"]; 
@@ -606,7 +608,8 @@
                  let transport = document.getElementById("transport") ;
                  transport.innerHTML=trans;
 
-                 let pic =  back["data"][0]["images"][0];
+                 let pic =  back["data"][0]["images"];
+                 console.log(pic)
                  count =pic.split(',').length; //圖片數量
                  let picList = document.getElementById("list"); //圖片div
                  let PicLast = document.createElement("img");//產生最後一張圖片
@@ -917,6 +920,10 @@
             if(date == "") //判斷日期未填
             {
                 alert("請選擇日期")
+            }
+            else if(Date.parse(date) < Date.parse((new Date()).toDateString()))
+            {
+                alert("日期不可小於今日")
             }
             else
             {

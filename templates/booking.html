@@ -397,12 +397,12 @@
 
         window.onload=function()
         {
-           // let index="index";
-           // checkuser(index);
               checkuser();
         }	
 
-           //確認登入狀態 function checkuser(page)
+
+
+        //確認登入狀態 function checkuser(page)
         function checkuser(){
              //check user verified
             let req = new XMLHttpRequest();
@@ -428,10 +428,6 @@
                     signin.style.display="block";
                     let signout = document.getElementById("signout");
                     signout.style.display="none";
-                  //  if(page == "book")
-                   // {
-                     //   clicksignin();
-                   // }
                     
                     let nobooking=document.getElementById("nobooking");
                     let isbooking=document.getElementById("isbooking");
@@ -686,12 +682,6 @@
                 req.send();
         }
         
-        //到預定行程
-     //   function gobooking(){
-       //     let book="book";
-      //      checkuser(book);
-      //  }
-
         //刪除預定行程
         function deletebook()
         {
@@ -773,7 +763,7 @@
                         <div class="info">
                             <div class="contentline inputbox"><p class="subtitle">聯絡姓名：</p><input type="text" id="username"></div>
                             <div class="contentline inputbox"><p class="subtitle">聯絡信箱：</p><input type="text" id="usermail"></div>
-                            <div class="contentline inputbox"><p class="subtitle">手機號碼：</p><input type="text" id="phone"></div>
+                            <div class="contentline inputbox"><p class="subtitle">手機號碼：</p><input type="text" id="phone" onkeyup="if(event.keyCode !=37 && event.keyCode != 39)value=value.replace(/\D/g,'')"></div>
                             <div class="subtitle">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
             
                         </div>
@@ -807,8 +797,13 @@
             </div>
                 <div id="footer" class="footer">COPYRIGHT © 2021 台北一日遊</div>
     
+                <div id="processModel" class="modal">
+                    <label style="color: #FFFFFF;"> 處理中 </label>
+
+                </div>
+
                       <!-- The Modal -->
-                      <div id="myModal" class="modal">
+                    <div id="myModal" class="modal">
     
                         <!-- Modal signin content -->
                         <div id="signin_content" class="signin_content">
@@ -900,73 +895,87 @@
                         submitButton.setAttribute('disabled', true)
                     }
 
-                   // var message = document.querySelector('#message')
-                   if (update.hasError) {
-                      // console.log(message);
-                    } else {
-                     //   message.classList.remove('error')
-                      //  message.classList.add('info')
-                    }
                 })
 
+
+
+                
                    //點選訂購並付款
-                   document.querySelector('#btn_submit').addEventListener('click', function(event) 
-                {
-                    event.preventDefault();
-                    TPDirect.card.getPrime(function(result) 
+                document.querySelector('#btn_submit').addEventListener('click', function(event) 
+                {   
+                    let uname=document.getElementById("username").value;
+                    let umail=document.getElementById("usermail").value;
+                    let uphone=document.getElementById("phone").value;
+                    let number = document.getElementById("card-number").value;
+                    let expiration_date=document.getElementById("card-expiration-date").value;
+                    let ccv = document.getElementById("card-ccv").value;
+                    if(uname=="" || umail=="" || uphone=="" || number=="" || expiration_date=="" || ccv==""){
+                        alert("空格皆為必填")
+                    }
+                    else
                     {
-                        console.log(JSON.stringify(result, null, 4))
-                        if(result.status != 0)
+                        if(!u_email.includes("@"))
                         {
-                            alert("刷卡有錯")
+                            alert("信箱格式有誤")
                             return;
                         }
-                        let card_prime = result.card.prime;
-                        let req = new XMLHttpRequest();
-			            req.open("POST","/api/orders")
-                        req.setRequestHeader('Content-type', 'application/json');
-                        let username=document.getElementById("username").value;
-                        let usermail=document.getElementById("usermail").value;
-                        let phone=document.getElementById("phone").value;
-		                let orders={
-                                    prime: card_prime,
-                                    order: {
-                                            price: p_price,
-                                            trip: {
-                                            attraction: {
-                                            id: p_id,
-                                            name: p_name,
-                                            address: p_address,
-                                            image: p_image
-                                            },
-                                            date: p_date,
-                                            time: p_time
-                                            },
-                                            contact: {
-                                            name: username,
-                                            email: usermail,
-                                            phone: phone
+                        event.preventDefault();
+                        TPDirect.card.getPrime(function(result) 
+                        {
+                            console.log(JSON.stringify(result, null, 4))
+                            if(result.status != 0)
+                            {
+                                alert("刷卡有錯")
+                                return;
+                            }
+                            let card_prime = result.card.prime;
+                            let req = new XMLHttpRequest();
+                            req.open("POST","/api/orders")
+                            req.setRequestHeader('Content-type', 'application/json');
+                            let username=document.getElementById("username").value;
+                            let usermail=document.getElementById("usermail").value;
+                            let phone=document.getElementById("phone").value;
+                            let orders={
+                                        prime: card_prime,
+                                        order: {
+                                                price: p_price,
+                                                trip: {
+                                                attraction: {
+                                                id: p_id,
+                                                name: p_name,
+                                                address: p_address,
+                                                image: p_image
+                                                },
+                                                date: p_date,
+                                                time: p_time
+                                                },
+                                                contact: {
+                                                name: username,
+                                                email: usermail,
+                                                phone: phone
+                                                }
                                             }
                                         }
-                                    }
-                                    let data = JSON.stringify(orders);
-                                    req.send(data);
-                                   req.onload=function()
-                                    {
-                                        let back = JSON.parse(this.response);
-                                        if(Object.keys(back)[0] != "error")
+                                        let data = JSON.stringify(orders);
+                                        req.send(data);
+                                    req.onload=function()
                                         {
-                                            num=back["data"]["number"]
-                                            alert("付款成功！")
-                                            self.location="/thankyou?number="+num;
+                                            let back = JSON.parse(this.response);
+                                            if(Object.keys(back)[0] != "error")
+                                            {
+                                                num=back["data"]["number"]
+                                                alert("付款成功！")
+                                                self.location="/thankyou?number="+num;
+                                            }
+                                            else
+                                            {
+                                                alert("付款失敗！請聯絡管理人員")
+                                            }
                                         }
-                                        else
-                                        {
-                                            alert("付款失敗！請聯絡管理人員")
-                                        }
-                                    }
-                          
-                    })
+                        })
+                    }
+
+                 
                 })
 
             </script>
