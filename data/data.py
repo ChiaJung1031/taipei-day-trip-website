@@ -32,12 +32,8 @@ with open("taipei-attractions.json", mode="r",encoding="utf-8") as file:
            newfilename=j[-3:] 
            if newfilename=="jpg" or newfilename=="JPG" or newfilename=="png" or newfilename=="PNG":
                 filestring += "http"+ j  
-          #with mydb.cursor() as cursor:
           sql_insertdata = insert_travel_data(id=idnum,info=info,stitle=stitle,xpostDate=xpostDate,longitude=longitude,REF_WP=REF_WP,avBegin=avBegin,langinfo=langinfo,MRT=MRT,SERIAL_NO=SERIAL_NO,RowNumber=RowNumber,CAT1=CAT1,CAT2=CAT2,MEMO_TIME=MEMO_TIME,POI=POI,file=filestring,idpt=idpt,latitude=latitude,xbody=xbody,avEnd=avEnd,address=address)
-           #sql = "INSERT INTO travel(id,info,stitle,xpostDate,longitude,REF_WP,avBegin,langinfo,MRT,SERIAL_NO,RowNumber,CAT1,CAT2,MEMO_TIME,POI,file,idpt,latitude,xbody,avEnd,address) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-           #val = (idnum,info,stitle,xpostDate,longitude,REF_WP,avBegin,langinfo,MRT,SERIAL_NO,RowNumber,CAT1,CAT2,MEMO_TIME,POI,filestring,idpt,latitude,xbody,avEnd,address)
-           #cursor.execute(sql,val)
-           #mydb.commit()  
+
       
 
 
