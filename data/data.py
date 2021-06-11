@@ -1,6 +1,8 @@
 import json
 from sql_database import insert_travel_data
 
+
+
 with open("taipei-attractions.json", mode="r",encoding="utf-8") as file:
  data=json.load(file)
  all=data["result"]["results"]
@@ -34,7 +36,6 @@ with open("taipei-attractions.json", mode="r",encoding="utf-8") as file:
                 filestring += "http"+ j  
           sql_insertdata = insert_travel_data(id=idnum,info=info,stitle=stitle,xpostDate=xpostDate,longitude=longitude,REF_WP=REF_WP,avBegin=avBegin,langinfo=langinfo,MRT=MRT,SERIAL_NO=SERIAL_NO,RowNumber=RowNumber,CAT1=CAT1,CAT2=CAT2,MEMO_TIME=MEMO_TIME,POI=POI,file=filestring,idpt=idpt,latitude=latitude,xbody=xbody,avEnd=avEnd,address=address)
 
-      
 
 
         
