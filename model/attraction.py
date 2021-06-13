@@ -56,19 +56,12 @@ def getdata(page,keyword):
 
 	elif keyword != None or keyword != "" and page != "":
 			count_data = select_count(kw=keyword)
-		#with mydb.cursor() as cursor:
-			#sqlcount="SELECT count(*) FROM travel WHERE stitle LIKE '%"+keyword+"%' "
-			#cursor.execute(sqlcount)
-			#resultCount = cursor.fetchall()
 			for a in count_data:
 				allcount = a  # 資料總數
 			num=allcount%12  #餘數
 			newnum=int(allcount/12)  #整數
 			
-			select_att_data = select_attraction(keyword,limitnum)
-			#sql="SELECT id,stitle,CAT2,xbody,address,info,MRT,latitude,longitude,file FROM travel WHERE stitle LIKE '%"+keyword+"%' LIMIT "+limitnum+",12  "
-			#cursor.execute(sql)
-			#myresult = cursor.fetchall()  
+			select_att_data = select_attraction(keyword,limitnum) 
 			travellist=[]
 			count=len(select_att_data)
 			if count != 0:
@@ -115,12 +108,8 @@ def getdata(page,keyword):
 
 
 def getattractid(id):
-    #with mydb.cursor() as cursor:
         if id.isdigit():
             select_data = select_att_id(id)
-            #sql="SELECT id,stitle,CAT2,xbody,address,info,MRT,latitude,longitude,file FROM travel WHERE id= "+id+""
-            #cursor.execute(sql)
-           # myresult = cursor.fetchall()
             travellist=[]
             if select_data == None:
                 msg = {"error": True, "message": "景點編號不正確"}
