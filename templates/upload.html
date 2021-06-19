@@ -45,6 +45,8 @@
                 console.log(data)
                 if (data["error"] == null)
                 {
+                    document.getElementById("txt_input").value="";
+                    document.getElementById("myFile").value="";
                     let picList=document.getElementById("picdiv");
                     let txtdiv=document.createElement("div");
                     let divhr=document.createElement("hr");
