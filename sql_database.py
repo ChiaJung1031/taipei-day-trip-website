@@ -14,6 +14,7 @@ try:
       user=os.getenv("DBUSER"),
       password=os.getenv("DBPASSWORD"),
       database=os.getenv("DBDATABASE"),
+      port=os.getenv("PORT"),
       charset = "utf8"
       )
 except Exception as e:
@@ -271,6 +272,26 @@ def insert_travel_data(**kwargs):
    try:
       sql = "INSERT INTO travel(id,info,stitle,xpostDate,longitude,REF_WP,avBegin,langinfo,MRT,SERIAL_NO,RowNumber,CAT1,CAT2,MEMO_TIME,POI,file,idpt,latitude,xbody,avEnd,address) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
       val = (kwargs["id"],kwargs["info"],kwargs["stitle"],kwargs["xpostDate"],kwargs["longitude"],kwargs["REF_WP"],kwargs["avBegin"],kwargs["langinfo"],kwargs["MRT"],kwargs["SERIAL_NO"],kwargs["RowNumber"],kwargs["CAT1"],kwargs["CAT2"],kwargs["MEMO_TIME"],kwargs["POI"],kwargs["file"],kwargs["idpt"],kwargs["latitude"],kwargs["xbody"],kwargs["avEnd"],kwargs["address"])
+      conn = conn_pool.get_connection()
+      newCursor=conn.cursor()
+      newCursor.execute(sql,val)
+      conn.commit()
+      if newCursor.rowcount == 1 :
+         return "insertDone"
+      else:
+         return "insertError"
+   except Exception as e:
+      print(e)
+      return None
+   finally:
+      closePool(conn, newCursor)
+
+
+###############AWS_RDS_POST_DATA
+def rds_insertdata(**kwargs):
+   try:
+      sql = "INSERT INTO postdata(description,pic) VALUES(%s,%s)"
+      val = (kwargs["imgtxt"],kwargs["imgpath"])
       conn = conn_pool.get_connection()
       newCursor=conn.cursor()
       newCursor.execute(sql,val)
