@@ -12,7 +12,6 @@ app.config["TEMPLATES_AUTO_RELOAD"]=True
 app.config['JSON_SORT_KEYS']=False
 app.secret_key = '_5#y2L"F4Q8z\n\xec]/'
 app.permanent_session_lifetime = timedelta(minutes=30)
-print("~~~~~~~~~~~~~~~~~~有沒有近來阿")
 
 # Pages
 @app.route("/")
