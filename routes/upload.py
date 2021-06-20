@@ -1,7 +1,7 @@
 from flask import Blueprint,request,json
 from flask import *
 from sql_database import *
-from model.upload import upload_to_aws
+from model.upload import *
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
 
@@ -33,6 +33,26 @@ def new():
                 jsonify({ "error": True, "message": "上傳檔案錯誤" })
     else:
         return jsonify({ "error": True, "message": "未選取檔案" })
+
+
+@upload_api.route("/api/load",methods=["GET"])
+def getupload():
+    data=getalldata()
+    if data != "NoData":
+        data_list = []
+        for i in data:
+            every_data={
+                "id":i[0],
+                "letter":i[1],
+                "imgurl":i[2]
+            }
+            data_list.append(every_data)
+        alldata={"data":data_list}
+        return alldata
+    else:
+        return "NoData"
+
+
 
 
 

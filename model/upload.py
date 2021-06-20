@@ -1,6 +1,7 @@
 import boto3
 from botocore.exceptions import NoCredentialsError
 from flask import jsonify 
+from sql_database import *
 
 ACCESS_KEY = 'AKIAZLKIILV66CXYMDMY'
 SECRET_KEY = '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'
@@ -21,3 +22,10 @@ def upload_to_aws(local_file, bucket):
     except NoCredentialsError:
         print("Credentials not available")
         return "uploadFailure"
+
+def getalldata():
+    select_all = select_all_postdata()
+    if select_all != "NoData":
+        return select_all
+    else:
+        return  "NoData"

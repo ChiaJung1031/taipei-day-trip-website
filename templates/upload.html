@@ -30,7 +30,11 @@
         <title>台北一日遊</title>
         
         <script type="text/javascript">
-        
+        window.onload = function ()
+        {
+            getAll()
+        }
+
         function clickup(){
             let uploadForm = document.getElementById('upload_form');
             var letter = document.getElementById("txt_input").value;
@@ -45,23 +49,9 @@
                 console.log(data)
                 if (data["error"] == null)
                 {
-                    document.getElementById("txt_input").value="";
-                    document.getElementById("myFile").value="";
-                    let picList=document.getElementById("picdiv");
-                    let txtdiv=document.createElement("div");
-                    let divhr=document.createElement("hr");
-                    divhr.className="hrclass";
-                    let txtletter=document.createTextNode(letter);
-                    let br = document.createElement("br");
-                    txtdiv.appendChild(txtletter);
-                    txtdiv.appendChild(br); //換行
-                    let newPic = document.createElement("img");//產生所有圖片
-                    newPic.setAttribute("src",data["data"]["imgurl"]);//插入圖片
-                    newPic.className = "pic_class"
-                    picList.appendChild(txtdiv);
-                    picList.appendChild(newPic);
-                    picList.appendChild(newPic);
-                    picList.appendChild(divhr);
+                    let pictxt = data["data"]["img_txt"];
+                    let picurl = data["data"]["imgurl"];
+                    genpic(pictxt,picurl);
                 }
                 else
                 {
@@ -71,8 +61,53 @@
 
         }
 
+        function getAll()
+        {
+            let req = new XMLHttpRequest();
+            req.open("GET","/api/load")
+            req.send();
+            req.onload = function () {
+                    let alldata = JSON.parse(this.response);
+                    if(alldata != "NoData")
+                    {
+                        let postdata = alldata["data"];
+                        let count = postdata.length;
+                        for(i=0;i<count;i++)
+                        {
+                            let picurl = postdata[i]["imgurl"];
+                            let pictxt = postdata[i]["letter"];
+                            genpic(pictxt,picurl);
+                        }
+                    }
+                    else
+                    {
+                        alert("資料有誤")
+                    }
+                   
 
+            }
+        }
 
+        function genpic(TXT,URL)
+        {
+            document.getElementById("txt_input").value="";
+            document.getElementById("myFile").value="";
+            let picList=document.getElementById("picdiv");
+            let txtdiv=document.createElement("div");
+            let divhr=document.createElement("hr");
+            divhr.className="hrclass";
+            let txtletter=document.createTextNode(TXT);
+            let br = document.createElement("br");
+            txtdiv.appendChild(txtletter);
+            txtdiv.appendChild(br); //換行
+            let newPic = document.createElement("img");//產生所有圖片
+            newPic.setAttribute("src",URL);//插入圖片
+            newPic.className = "pic_class"
+            picList.appendChild(txtdiv);
+            picList.appendChild(newPic);
+            picList.appendChild(newPic);
+            picList.appendChild(divhr);
+        }
 
         </script>
         </head>
