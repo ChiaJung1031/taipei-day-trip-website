@@ -26,4 +26,3 @@ def deletebooking():
     mail = session.get('email') 
     data = deletebook(mail)
     return data
-

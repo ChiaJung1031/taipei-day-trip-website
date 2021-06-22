@@ -721,6 +721,7 @@
         //TPDirect.setupSDK 設定參數
         TPDirect.setupSDK(20410, 'app_6kKSn4u2u1s6pgS7hXRxMaLLhygWHuSSazLpsGAlPM5GX9mlKCEjTapkC4H6', 'sandbox')
         
+
         </script>
 
 
@@ -903,17 +904,8 @@
                    //點選訂購並付款
                 document.querySelector('#btn_submit').addEventListener('click', function(event) 
                 {   
-                    let uname=document.getElementById("username").value;
-                    let umail=document.getElementById("usermail").value;
-                    let uphone=document.getElementById("phone").value;
-                    let number = document.getElementById("card-number").value;
-                    let expiration_date=document.getElementById("card-expiration-date").value;
-                    let ccv = document.getElementById("card-ccv").value;
-                    if(uname=="" || umail=="" || uphone=="" || number=="" || expiration_date=="" || ccv==""){
-                        alert("空格皆為必填")
-                    }
-                    else
-                    {
+                       let u_email=document.getElementById("usermail").value;
+                
                         if(!u_email.includes("@"))
                         {
                             alert("信箱格式有誤")
@@ -973,13 +965,12 @@
                                             }
                                         }
                         })
-                    }
+                 //   }
 
                  
                 })
 
             </script>
 
-        
         </body>
     </html>
