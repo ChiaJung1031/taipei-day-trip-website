@@ -31,6 +31,10 @@ def thankyou():
 def upload():
 	return render_template("upload.html")
 
+@app.route("/loaderio-2ce70f20c355a778c557d5ec6a9090a6")
+def uploadtest():
+	return render_template("loaderio-2ce70f20c355a778c557d5ec6a9090a6.html")
+
 app.register_blueprint(user_api)
 app.register_blueprint(attraction_api)
 app.register_blueprint(booking_api)

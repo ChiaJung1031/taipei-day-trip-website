@@ -14,7 +14,6 @@ def allowed_file(filename):
 
 @upload_api.route("/load",methods=["POST"])
 def new():
-    print(request.files)
     if "image" in request.files:
         image = request.files["image"]
         letter = request.form["letter"]
