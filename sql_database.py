@@ -305,6 +305,23 @@ def rds_insertdata(**kwargs):
    finally:
       closePool(conn, newCursor)
 
+def select_all_postdata():
+   try:
+      sql = "SELECT * FROM postdata ORDER BY id asc"
+      conn = conn_pool.get_connection()
+      newCursor=conn.cursor()
+      newCursor.execute(sql)
+      myResult = newCursor.fetchall()
+      if myResult != None :
+         return myResult
+      else:
+         return "NoData"
+   except Exception as e:
+      print(e)
+      return None
+   finally:
+      closePool(conn, newCursor)
+
 
    
 
