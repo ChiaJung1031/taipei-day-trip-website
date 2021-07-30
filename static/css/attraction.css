@@ -1,0 +1,549 @@
+    html, body{
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        padding: 0px;
+    }
+    
+    nav{
+		height: 54px;
+		left: 0px;
+		top: 0px;
+		width: auto;
+		border-bottom: groove;
+		border-color: #eff3f547;
+    }
+
+    nav > .new>.logo{
+        flex:auto;
+        font-size: 30px;
+        color: #448899;
+        font-weight: bold;
+        font-style: normal;
+        font-family: Noto Sans;
+        margin-top: 10px;
+        position: relative;
+        margin-left: 35px;
+        cursor: pointer;
+    }
+    
+    nav > .new>.menu{
+        flex:none;
+        font-size: 16px;
+        color: #666666;
+        margin-top: 20px;
+        margin-right: 25px;
+    }
+    
+    .new{
+        display:flex;
+        flex-wrap:wrap; 
+        justify-content:center; 
+        width: 1200px;
+         margin: 0px auto;
+    }
+ 
+    .menutype{
+            display: flex;
+            font-size: 16px;
+            color: #666666;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+	
+    .footer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        left: 0px;
+        background: #757575;
+        margin-top: 70px;
+        padding: 50px;
+        font-size: 16px;
+        color: #FFFF;
+        font-weight: bold;
+        }
+
+	.content{
+	    display: flex;
+		width: 1200px;
+		justify-content:center; 
+		margin: 35px auto;
+	}
+    .info {
+        line-height: 44px;
+        margin-left: 30px;
+    }
+	.booking{
+        background-color: #E8E8E8;
+        width: 120%;
+        border-radius: 5px;
+        padding: 7%;
+	}
+	.placeIntro{
+        width: 1170px;
+		justify-content:center; 
+		margin: 35px auto;
+	}
+	
+	.info > .booking> button{
+		background: #448899;
+		border-radius: 5px;
+		color: #FFFFFF;
+		border: hidden;
+		padding: 7px 20px;
+        font-size: 19px;
+	}
+    .info > .booking > .time>.rbt_time>.radiobtn {
+	    width: 20px;
+		height: 20px;
+		display: inline;
+		position: relative;
+		top: 4px;
+	}
+	
+	
+	.classTitle{
+		font-family: Noto Sans TC;
+		font-style: normal;
+		font-weight: bold;
+		font-size: 24px;
+		line-height: 24px;
+		align-items: center;
+		color: #666666;
+	}
+
+	.classSubtitle{
+		font-family: Noto Sans TC;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+		display: flex;
+		align-items: center;
+		color: #666666;
+	}
+
+	.bookSub{
+		font-family: Noto Sans TC;
+		font-style: normal;
+		font-weight: bold;
+		font-size: 16px;
+		line-height: 13px;
+		display: flex;
+		align-items: center;
+		color: #666666;
+	}
+	.subContent{
+		font-family: Noto Sans TC;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 23px;
+		align-items: center;
+		color: #666666;
+	}
+
+    .clsimg{
+        width: 125%;
+        margin-left: -55%;
+        height: 400px;
+        }
+
+     #hr{width: 1200px;}
+
+    .demoHidden{
+			display: none;
+		}
+	.radioInput{
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            border-radius: 100%;
+            margin-right: 10px;
+            vertical-align: middle;
+            background-color: #FFFFFF;
+            margin-top: -5px;
+		}
+	.demoHidden:checked + .radioInput:after{
+            content: "";
+            display: inline-block;
+            width: 19px;
+            height: 20px;
+            background: #448899;
+            border-radius: 100%;
+            margin-top: 3px;
+            margin-left: 3px;
+            margin-bottom: 5px;
+		}
+
+
+        #container {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            overflow: hidden;
+            margin-left: -7%;
+        }
+
+    
+        
+        #list {
+            position: absolute;
+            z-index: 1;
+            width: 10000px;
+            height: 400px;
+        }
+        #list img {
+            float: left;
+            width: 600px;
+            height: 400px;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 180px;
+            z-index: 1;
+            display: none;
+            width: 40px;
+            height: 40px;
+            font-size: 36px;
+            font-weight: bold;
+            line-height: 39px;
+            text-align: center;
+            color: #fff;
+            background-color: RGBA(0, 0, 0, .3);
+            cursor: pointer;
+            display: block;
+        }
+
+        .arrow:hover {
+            background-color: RGBA(0, 0, 0, .7);
+        }
+
+ 
+        #prev {
+            left: 20px;
+        }
+
+        #next {
+            right: 20px;
+        }
+
+        .cls_signin{
+        font-family: Noto Sans TC;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 24px;
+        display: flex;
+        margin: 0px 0 15px 25%;
+        color: #666666;
+        }
+
+    .signin_content > input,.signup_content > input{
+        height: 47px;
+        background: #FFFFFF;
+        border: 1px solid #CCCCCC;
+        box-sizing: border-box;
+        border-radius: 5px;
+        width: 310px;
+    }
+    .signin_content > button ,.signup_content > button {
+        width: 310px;
+        height: 47px;
+        left: 0px;
+        top: 156px;
+        background: #448899;
+        border-radius: 5px;
+        color: white;
+        font-size: 19px;
+        cursor: pointer;
+    }
+    #nosignin{text-align: center; margin-bottom: -5px;cursor: pointer;}
+    #nosignup{text-align: center; margin-bottom: -5px;cursor: pointer;}
+
+    /* The Modal background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; 
+        height: 100%;
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black opacity */
+    }
+
+    /* Modal Content */
+    .signin_content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 310px;
+        box-shadow: 0px 4px 60px #AAAAAA;
+        border-radius: 6px;
+    }
+
+    /* Modal Content */
+    .signup_content {
+        display: none;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 310px;
+        box-shadow: 0px 4px 60px #AAAAAA;
+        border-radius: 6px;
+    }
+
+
+    /* The Close Button */
+    .close {
+        width: 16px;
+        height: 16px;
+        margin: 0px 0 0 20%;
+    }
+
+    .close:hover,.close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .error_msg{
+        display: none;   
+        text-align: center;
+        margin: 10px 0 -9px 0;
+        color: red;
+    }
+
+    .menuout {
+        display: none;
+        flex: none;
+        font-size: 16px;
+        color: #666666;
+        margin-right: 25px;
+    }
+
+	
+    @media screen and  (min-width:1001px) and (max-width:1200px){
+     
+        .new{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: auto;
+            margin: 0px auto;
+        }
+        .content{
+            display: flex;
+            width: 85%;
+            justify-content:center; 
+            margin: 35px auto;
+	    }
+        .placeIntro {
+            width: 950px;
+            justify-content: center;
+            margin: 35px auto;
+        }
+        #container {
+            position: relative;
+            width: 500px;
+            height: 400px;
+            overflow: hidden;
+            margin-left: -3%;
+        }
+        #hr {
+            width: 90%;
+        }
+        .booking {
+            background-color: #E8E8E8;
+            width: 95%;
+            border-radius: 5px;
+            padding: 7%;
+        }
+            
+     }
+
+     @media screen and  (min-width:851px) and (max-width:1000px){
+    
+        .new {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: auto;
+            margin: 0px auto;
+        }
+        .placeIntro {
+            width: 800px;
+            justify-content: center;
+            margin: 35px auto;
+        }
+        #container {
+            position: relative;
+            width: 375;
+            height: 400px;
+            overflow: hidden;
+            margin-left: -2%;
+        }
+        .booking {
+            background-color: #E8E8E8;
+            width: 94%;
+            border-radius: 5px;
+            padding: 7%;
+        }
+        #hr {
+            width: 90%;
+        }
+        .content {
+            display: flex;
+            width: 800px;
+            justify-content: center;
+            margin: 35px auto;
+        }
+        .menuout{
+            display: none;
+            flex:none;
+            font-size: 16px;
+            color: #666666;
+            margin-right: 25px;
+        }
+
+     }
+
+     @media screen and  (min-width:601px) and (max-width:850px){
+        .new {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: auto;
+            margin: 0px auto;
+        }
+        .placeIntro {
+            width: 90%;
+            justify-content: center;
+            margin: 35px auto;
+        }
+
+        #hr{width: 90%;}
+
+        .content {
+            width: 90%;
+            justify-content: center;
+            margin: 35px auto;
+            flex-direction: column;
+        }
+
+        .booking{
+            background-color: #E8E8E8;
+            border-radius: 5px;
+            padding: 7%;
+            width: 87%;
+	    }
+        
+        .clsimg {
+            width: 245%;
+            margin-left: -134%;
+            height: 350px;
+            margin-bottom: 24px;
+        }
+        .info {
+            line-height: 44px;
+            margin-left: 0px; 
+        }
+        #container {
+            position: relative;
+            width: 112%;
+            height: 400px;
+            overflow: hidden;
+        /*  margin-left: -6%; */
+            margin-bottom: 15px;
+        }
+     
+     }
+   
+    
+    @media screen and (max-width:600px){
+     
+        .new{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 370px;
+            margin: 0px auto auto -6px;
+        }
+              
+        .menutype{
+            display: flex;
+            font-size: 16px;
+            color: #666666;
+            margin-top: 20px;
+            margin-right: -5px;
+        }
+        nav > .new>.logo {
+            flex: auto;
+            font-size: 30px;
+            color: #448899;
+            font-weight: bold;
+            font-style: normal;
+            font-family: Noto Sans;
+            margin-top: 10px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .placeIntro {
+            width: 90%;
+            justify-content: center;
+            margin: 35px auto;
+        }
+
+        #hr{width: 90%;}
+
+        .content {
+            width: 90%;
+            justify-content: center;
+            margin: 35px auto;
+            flex-direction: column;
+        }
+
+        .booking{
+            background-color: #E8E8E8;
+            border-radius: 5px;
+            padding: 7%;
+            width: 87%;
+	    }
+        
+        .clsimg {
+            width: 245%;
+            margin-left: -134%;
+            height: 350px;
+            margin-bottom: 24px;
+        }
+        .info {
+            line-height: 44px;
+            margin-left: 0px; 
+        }
+        #container {
+            position: relative;
+            width: 112%;
+            height: 400px;
+            overflow: hidden;
+          /*  margin-left: -6%;*/
+            margin-bottom: 15px;
+        }
+
+        #nosignin{margin-left: -10%;margin-bottom: -5px;cursor: pointer;}
+        #nosignup{margin-left: -10%;margin-bottom: -5px;cursor: pointer;}
+        #errmsg{display: none;}
+        .error_msg {
+            display: none;
+            text-align: center;
+            margin: 10px 0 -9px -40px;
+            color: red;
+        }
+    }
+    

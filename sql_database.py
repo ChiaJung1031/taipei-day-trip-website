@@ -14,7 +14,6 @@ try:
       user=os.getenv("DBUSER"),
       password=os.getenv("DBPASSWORD"),
       database=os.getenv("DBDATABASE"),
-      port=os.getenv("PORT"),
       charset = "utf8"
       )
 except Exception as e:

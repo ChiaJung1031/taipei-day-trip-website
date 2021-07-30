@@ -6,7 +6,7 @@ from routes.booking import booking_api
 from routes.order import order_api
 from routes.upload import upload_api
 
-app=Flask(__name__, static_url_path="/", static_folder="image")
+app=Flask(__name__, static_url_path="/", static_folder="static")
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 app.config['JSON_SORT_KEYS']=False
